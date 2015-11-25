@@ -1,0 +1,265 @@
+Dependencies for Project 'STM32-SDCard-SDIO', Target 'STM32-SDCard-SDIO': (DO NOT MODIFY !)
+F (.\user\stm32f10x_it.c)(0x5655431A)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_it.o --omf_browse .\obj\stm32f10x_it.crf --depend .\obj\stm32f10x_it.d)
+I (user\stm32f10x_it.h)(0x5651913A)
+I (user\stm32f10x.h)(0x5344F0D2)
+I (user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (user\system_stm32f10x.h)(0x5344F0D2)
+I (user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rtc.h)(0x5344F0D2)
+I (user\sdcard.h)(0x5344F0D2)
+I (user\main.h)(0x5654AA7D)
+I (.\FWlib\inc\stm32f10x_adc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_bkp.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_pwr.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_usart.h)(0x5344F0D2)
+F (.\user\sdcard.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\sdcard.o --omf_browse .\obj\sdcard.crf --depend .\obj\sdcard.d)
+I (user\sdcard.h)(0x5344F0D2)
+I (user\stm32f10x.h)(0x5344F0D2)
+I (user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (user\system_stm32f10x.h)(0x5344F0D2)
+I (user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\user\main.c)(0x56554B86)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+I (user\main.h)(0x5654AA7D)
+I (user\stm32f10x.h)(0x5344F0D2)
+I (user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (user\system_stm32f10x.h)(0x5344F0D2)
+I (user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_adc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_bkp.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_pwr.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rtc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_usart.h)(0x5344F0D2)
+I (user\sdcard.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7C554)
+I (user\adc.h)(0x565536D9)
+I (user\rtc.h)(0x5654AA96)
+I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C7C554)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C7C554)
+I (.\fatfs\integer.h)(0x5344F0D2)
+I (.\fatfs\ff.h)(0x56547D40)
+I (.\fatfs\diskio.h)(0x5344F0D2)
+F (.\user\rtc.c)(0x5654CFD3)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\rtc.o --omf_browse .\obj\rtc.crf --depend .\obj\rtc.d)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7C554)
+I (user\rtc.h)(0x5654AA96)
+I (user\stm32f10x.h)(0x5344F0D2)
+I (user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (user\system_stm32f10x.h)(0x5344F0D2)
+I (user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_bkp.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_pwr.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rtc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_usart.h)(0x5344F0D2)
+F (.\user\adc.c)(0x56554B99)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\adc.o --omf_browse .\obj\adc.crf --depend .\obj\adc.d)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7C554)
+I (user\adc.h)(0x565536D9)
+I (user\stm32f10x.h)(0x5344F0D2)
+I (user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (user\system_stm32f10x.h)(0x5344F0D2)
+I (user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+I (user\main.h)(0x5654AA7D)
+I (.\FWlib\inc\stm32f10x_adc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_bkp.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_pwr.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rtc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_usart.h)(0x5344F0D2)
+F (.\FWlib\SRC\misc.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\misc.o --omf_browse .\obj\misc.crf --depend .\obj\misc.d)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_gpio.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_gpio.o --omf_browse .\obj\stm32f10x_gpio.crf --depend .\obj\stm32f10x_gpio.d)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_rcc.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_rcc.o --omf_browse .\obj\stm32f10x_rcc.crf --depend .\obj\stm32f10x_rcc.d)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_usart.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_usart.o --omf_browse .\obj\stm32f10x_usart.crf --depend .\obj\stm32f10x_usart.d)
+I (.\FWlib\inc\stm32f10x_usart.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_sdio.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_sdio.o --omf_browse .\obj\stm32f10x_sdio.crf --depend .\obj\stm32f10x_sdio.d)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_dma.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_dma.o --omf_browse .\obj\stm32f10x_dma.crf --depend .\obj\stm32f10x_dma.d)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_rtc.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_rtc.o --omf_browse .\obj\stm32f10x_rtc.crf --depend .\obj\stm32f10x_rtc.d)
+I (.\FWlib\inc\stm32f10x_rtc.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_bkp.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_bkp.o --omf_browse .\obj\stm32f10x_bkp.crf --depend .\obj\stm32f10x_bkp.d)
+I (.\FWlib\inc\stm32f10x_bkp.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_pwr.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_pwr.o --omf_browse .\obj\stm32f10x_pwr.crf --depend .\obj\stm32f10x_pwr.d)
+I (.\FWlib\inc\stm32f10x_pwr.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\FWlib\SRC\stm32f10x_adc.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\stm32f10x_adc.o --omf_browse .\obj\stm32f10x_adc.crf --depend .\obj\stm32f10x_adc.d)
+I (.\FWlib\inc\stm32f10x_adc.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_conf.h)(0x5344F0D2)
+F (.\startup\startup_stm32f10x_hd.s)(0x5344F0D2)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x--list .\list\startup_stm32f10x_hd.lst --xref -o .\obj\startup_stm32f10x_hd.o --depend .\obj\startup_stm32f10x_hd.d)
+F (.\user\system_stm32f10x.c)(0x5654757D)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\system_stm32f10x.o --omf_browse .\obj\system_stm32f10x.crf --depend .\obj\system_stm32f10x.d)
+I (user\stm32f10x.h)(0x5344F0D2)
+I (user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (user\system_stm32f10x.h)(0x5344F0D2)
+I (user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+F (.\user\core_cm3.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\core_cm3.o --omf_browse .\obj\core_cm3.crf --depend .\obj\core_cm3.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+F (.\fatfs\ff.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\ff.o --omf_browse .\obj\ff.crf --depend .\obj\ff.d)
+I (fatfs\ff.h)(0x56547D40)
+I (fatfs\integer.h)(0x5344F0D2)
+I (fatfs\diskio.h)(0x5344F0D2)
+I (.\user\config.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)
+I (.\user\sdcard.h)(0x5344F0D2)
+I (.\user\..\FATFS\ff.h)(0x56547D40)
+F (.\fatfs\diskio.c)(0x5344F0D2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\FWlib\inc -I.\user -I.\fatfs -I.\fatfs-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o .\obj\diskio.o --omf_browse .\obj\diskio.crf --depend .\obj\diskio.d)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C7C554)
+I (fatfs\diskio.h)(0x5344F0D2)
+I (fatfs\integer.h)(0x5344F0D2)
+I (.\user\sdcard.h)(0x5344F0D2)
+I (.\user\stm32f10x.h)(0x5344F0D2)
+I (.\user\core_cm3.h)(0x5344F0D2)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
+I (.\user\system_stm32f10x.h)(0x5344F0D2)
+I (.\user\stm32f10x_conf.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_dma.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_gpio.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_rcc.h)(0x5344F0D2)
+I (.\FWlib\inc\stm32f10x_sdio.h)(0x5344F0D2)
+I (.\FWlib\inc\misc.h)(0x5344F0D2)

@@ -1,0 +1,13 @@
+.\obj\sdcard.o: user\sdcard.c
+.\obj\sdcard.o: user\sdcard.h
+.\obj\sdcard.o: user\stm32f10x.h
+.\obj\sdcard.o: user\core_cm3.h
+.\obj\sdcard.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\sdcard.o: user\system_stm32f10x.h
+.\obj\sdcard.o: user\stm32f10x_conf.h
+.\obj\sdcard.o: .\FWlib\inc\stm32f10x_dma.h
+.\obj\sdcard.o: .\user\stm32f10x.h
+.\obj\sdcard.o: .\FWlib\inc\stm32f10x_gpio.h
+.\obj\sdcard.o: .\FWlib\inc\stm32f10x_rcc.h
+.\obj\sdcard.o: .\FWlib\inc\stm32f10x_sdio.h
+.\obj\sdcard.o: .\FWlib\inc\misc.h
