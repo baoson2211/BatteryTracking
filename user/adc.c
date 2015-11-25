@@ -202,7 +202,7 @@ void ADCInit(void)
     //We will convert multiple channels
     ADC_InitStructure.ADC_ScanConvMode = ENABLE;
     //select continuous conversion mode
-    ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//!
+    ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;//!
     //select no external triggering
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     //right 12-bit data alignment in ADC data register
