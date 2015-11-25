@@ -95,11 +95,6 @@ void RTC_Configuration(void);
       Read_file   = 0x33
     } cmd;
     
-    struct _CELL {
-      uint16_t Ch[24];
-      uint16_t Voltage;
-    } CELL;
-    
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -307,7 +302,7 @@ int main(void)
   Serial_Init();
   
   ADCInit();
-  DMAInit();
+   DMAInit();
   
   /////////////////////////////////////////////////////////////////////
   //////// SDCARD Initialisation //////////////////////////////////////
@@ -396,10 +391,13 @@ int main(void)
   ADC_Cmd(ADC1, ENABLE);
   
   //Enable DMA2 Channel transfer
+  
   DMA_Cmd(DMA2_Channel5, ENABLE);
   
   /* Enable ADC3 */
   ADC_Cmd(ADC3, ENABLE);
+  
+  printf("CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
   
   while (1)
   {
@@ -429,11 +427,12 @@ int main(void)
         CELL.Ch[index] = (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4); 
     }
 
-    for(index = 15; index < 17; index++){ 
-        CELL.Ch[index] = (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4); 
+    for(index = 0; index < 2; index++){ 
+        CELL.Ch[index+15] = (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4); 
     }
-
-    printf("%4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  ",
+       
+    
+    printf("%4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d  \n\r",
            CELL.Ch[0] , CELL.Ch[1] , CELL.Ch[2] , CELL.Ch[3] , CELL.Ch[4] , CELL.Ch[5] , CELL.Ch[6] , CELL.Ch[7] , 
            CELL.Ch[8] , CELL.Ch[9] , CELL.Ch[10], CELL.Ch[11], CELL.Ch[12], CELL.Ch[13], CELL.Ch[14], CELL.Ch[15] );
     //Delay(5000);

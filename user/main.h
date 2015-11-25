@@ -55,7 +55,12 @@
 *															PRIVATE DEFINE															*
 *************************************************************************************************************************************
 */
-                     
+
+struct _CELL {
+  uint16_t Ch[24];  
+  uint16_t Voltage;
+} CELL;
+               
 
 /*
 *************************************************************************************************************************************
@@ -63,7 +68,30 @@
 *************************************************************************************************************************************
 */
 
-
+#define CELL01 { CELL.Ch[0]  = ADC_Read(ADC1, ADC_Channel_8) ; }
+#define CELL02 { CELL.Ch[1]  = ADC_Read(ADC1, ADC_Channel_14); }
+#define CELL03 { CELL.Ch[2]  = ADC_Read(ADC1, ADC_Channel_6) ; }
+#define CELL04 { CELL.Ch[3]  = ADC_Read(ADC1, ADC_Channel_4) ; }
+#define CELL05 { CELL.Ch[4]  = ADC_Read(ADC1, ADC_Channel_2) ; }
+#define CELL06 { CELL.Ch[5]  = ADC_Read(ADC1, ADC_Channel_0) ; }
+#define CELL07 { CELL.Ch[6]  = ADC_Read(ADC1, ADC_Channel_12); }
+#define CELL08 { CELL.Ch[7]  = ADC_Read(ADC1, ADC_Channel_10); }
+#define CELL09 { CELL.Ch[8]  = ADC_Read(ADC3, ADC_Channel_7) ; }
+#define CELL10 { CELL.Ch[9]  = ADC_Read(ADC3, ADC_Channel_5) ; }
+#define CELL11 { CELL.Ch[10] = ADC_Read(ADC1, ADC_Channel_15); }
+#define CELL12 { CELL.Ch[11] = ADC_Read(ADC1, ADC_Channel_7) ; }
+#define CELL13 { CELL.Ch[12] = ADC_Read(ADC1, ADC_Channel_5) ; }
+#define CELL14 { CELL.Ch[13] = ADC_Read(ADC1, ADC_Channel_3) ; }
+#define CELL15 { CELL.Ch[14] = ADC_Read(ADC1, ADC_Channel_1) ; }
+#define CELL16 { CELL.Ch[15] = ADC_Read(ADC1, ADC_Channel_13); }
+#define CELL17 { CELL.Ch[16] = ADC_Read(ADC1, ADC_Channel_11); }
+#define CELL18 { CELL.Ch[17] = ADC_Read(ADC3, ADC_Channel_8) ; }
+#define CELL19 { CELL.Ch[18] = ADC_Read(ADC1, ADC_Channel_11); }
+#define CELL20 { CELL.Ch[19] = ADC_Read(ADC3, ADC_Channel_8) ; }
+#define CELL21 { CELL.Ch[20] = ADC_Read(ADC1, ADC_Channel_11); }
+#define CELL22 { CELL.Ch[21] = ADC_Read(ADC3, ADC_Channel_8) ; }
+#define CELL23 { CELL.Ch[22] = ADC_Read(ADC1, ADC_Channel_11); }
+#define CELL24 { CELL.Ch[23] = ADC_Read(ADC3, ADC_Channel_8) ; }
 
 /*
 *************************************************************************************************************************************

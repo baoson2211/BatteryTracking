@@ -338,4 +338,23 @@ void DMAInit(void) {
     DMA_Cmd(DMA2_Channel5, ENABLE); //Enable the DMA1 - Channel1
 }
 
+uint16_t ADC_Read(ADC_TypeDef* ADCx, uint8_t channel) {
+	uint32_t timeout = 0xFFF;
+	
+	ADC_RegularChannelConfig(ADCx, channel, 1, ADC_SampleTime_55Cycles5);
+
+	/* Start software conversion */
+	ADCx->CR2 |= (uint32_t)ADC_CR2_SWSTART;
+	
+	/* Wait till done */
+	while (!(ADCx->SR & ADC_SR_EOC)) {
+		if (timeout-- == 0x00) {
+			return 0;
+		}
+	}
+	
+	/* Return result */
+	return ADCx->DR;
+}
+
 /******************* (C) COPYRIGHT 2010 ARMVietNam *****END OF FILE****/
