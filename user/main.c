@@ -64,6 +64,7 @@ enum CLI{
 
 struct _CELL {
       uint16_t Ch[24];  
+      uint16_t Tmp;
       uint16_t Voltage;
     } CELL;
 
@@ -77,8 +78,8 @@ struct _CELL {
 #define CELL06 { CELL.Ch[5]  = ADC_Read(ADC1, ADC_Channel_0) ; }
 #define CELL07 { CELL.Ch[6]  = ADC_Read(ADC1, ADC_Channel_12); }
 #define CELL08 { CELL.Ch[7]  = ADC_Read(ADC1, ADC_Channel_10); }
-#define CELL09 { CELL.Ch[8]  = ADC_Read(ADC3, ADC_Channel_7) ; }
-#define CELL10 { CELL.Ch[9]  = ADC_Read(ADC3, ADC_Channel_5) ; }
+#define CELL09 { CELL.Ch[8]  = ADC_Read(ADC3, ADC_Channel_5) ; }
+#define CELL10 { CELL.Ch[9]  = ADC_Read(ADC3, ADC_Channel_7) ; }
 #define CELL11 { CELL.Ch[10] = ADC_Read(ADC1, ADC_Channel_15); }
 #define CELL12 { CELL.Ch[11] = ADC_Read(ADC1, ADC_Channel_7) ; }
 #define CELL13 { CELL.Ch[12] = ADC_Read(ADC1, ADC_Channel_5) ; }
@@ -187,6 +188,44 @@ FRESULT scan_files (char* path)
 	return res;
 }
 
+uint16_t ReadCell(uint8_t i) {
+  switch (i) {
+    case 0:
+      return ADC_Read(ADC1, ADC_Channel_8) ; break;
+    case 1:
+      return ADC_Read(ADC1, ADC_Channel_14); break;
+    case 2:
+      return ADC_Read(ADC1, ADC_Channel_6) ; break;
+    case 3:  
+      return ADC_Read(ADC1, ADC_Channel_4) ; break;
+    case 4:
+      return ADC_Read(ADC1, ADC_Channel_2) ; break;
+    case 5:
+      return ADC_Read(ADC1, ADC_Channel_0) ; break;
+    case 6:
+      return ADC_Read(ADC1, ADC_Channel_12); break;
+    case 7:  
+      return ADC_Read(ADC1, ADC_Channel_10); break;
+    case 8:  
+      return ADC_Read(ADC3, ADC_Channel_5) ; break;
+    case 9:
+      return ADC_Read(ADC3, ADC_Channel_7) ; break;
+    case 10:
+      return ADC_Read(ADC1, ADC_Channel_15); break;
+    case 11:
+      return ADC_Read(ADC1, ADC_Channel_7) ; break;
+    case 12:
+      return ADC_Read(ADC1, ADC_Channel_5) ; break;
+    case 13:
+      return ADC_Read(ADC1, ADC_Channel_3) ; break;
+    case 14:
+      return ADC_Read(ADC1, ADC_Channel_1) ; break;
+    case 15:
+      return ADC_Read(ADC1, ADC_Channel_13); break;
+    default:                                 break; 
+  }
+}
+
 void CreateFile() {
   FRESULT res;
   FILINFO finfo;
@@ -220,23 +259,10 @@ void WriteFile(void)
   disk_initialize(0);
     
   f_mount(0, &fs);
-  
-    
+      
   if(f_open(&fdst, "log.txt", FA_OPEN_EXISTING | FA_WRITE)==FR_OK ) {
     bw=1;
-  
-    /* Start ADC1 ADC3 Software Conversion */ 
-    ADC_SoftwareStartConvCmd(ADC1, ENABLE );
-    //wait for DMA complete
-    //while (!status1){};
-    Delay(200);
-    ADC_SoftwareStartConvCmd(ADC1, DISABLE);
-      
-    ADC_SoftwareStartConvCmd(ADC3, ENABLE );
-    //while (!status3){};
-    Delay(200);
-    ADC_SoftwareStartConvCmd(ADC3, DISABLE);  
-    
+     
     //print averages
     f_lseek(&fdst, fdst.fsize);
     sTime_Display(RTC_GetCounter(), time);
@@ -245,14 +271,7 @@ void WriteFile(void)
       
     //f_lseek(&fdst, fdst.fsize);
     for(index = 0; index < 16; index++){ 
-        sprintf(string,"     %4d",
-             (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4)); 
-      f_write(&fdst, string, sizeof(string), &bw);
-      f_sync(&fdst);
-    }
-    for(index = 0; index < 5; index++){ 
-        sprintf(string,"     %4d",
-             (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4)); 
+      sprintf(string,"     %4d", ReadCell(index)); 
       f_write(&fdst, string, sizeof(string), &bw);
       f_sync(&fdst);
     }
@@ -413,7 +432,7 @@ int main(void)
 	/* Clear reset flags */
 	RCC_ClearFlag();
   
-  //CreateFile(); 
+  CreateFile(); 
   
   //Enable DMA1 Channel transfer
   //DMA_Cmd(DMA1_Channel1, ENABLE);
@@ -428,52 +447,12 @@ int main(void)
   /* Enable ADC3 */
   ADC_Cmd(ADC3, ENABLE);
   
-  ADC_SoftwareStartConvCmd(ADC1, ENABLE );
-  
-  ADC_SoftwareStartConvCmd(ADC3, ENABLE );
-  
-  printf("CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
+  //printf("CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
   
   while (1)
   {
-    //WriteFile();
-    //printf("running \r\n");
-    //ADC_SoftwareStartConvCmd(ADC1, ENABLE );
-    //wait for DMA complete
-    //while (!status1){};
-    //Delay(2000);
-    //ADC_SoftwareStartConvCmd(ADC1, DISABLE);
-      
-    //ADC_SoftwareStartConvCmd(ADC3, ENABLE );
-    //while (!status3){};
-    //Delay(2000);
-    //ADC_SoftwareStartConvCmd(ADC3, DISABLE);     
-    
-//    for(index = 0; index < 14; index++){ 
-//        printf("     %4d",
-//             (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4)); 
-//    }
-//    for(index = 0; index < 2; index++){ 
-//        printf("     %4d",
-//             (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4)); 
-//    }
-    
-//    for(index = 0; index < 15; index++){ 
-//        CELL.Ch[index] = (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4); 
-//    }
-
-//    for(index = 0; index < 2; index++){ 
-//        CELL.Ch[index+15] = (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4); 
-//    }
-//       
-    CELL01; CELL02; CELL03; CELL04;
-    CELL05; CELL06; CELL07; CELL08;
-    CELL09; CELL10; CELL11; CELL12;
-    CELL13; CELL14; CELL15; CELL16;
-    
-    printf("%4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d     %4d  \n\r",
-           CELL.Ch[0] , CELL.Ch[1] , CELL.Ch[2] , CELL.Ch[3] , CELL.Ch[4] , CELL.Ch[5] , CELL.Ch[6] , CELL.Ch[7] , 
-           CELL.Ch[8] , CELL.Ch[9] , CELL.Ch[10], CELL.Ch[11], CELL.Ch[12], CELL.Ch[13], CELL.Ch[14], CELL.Ch[15] );
+    WriteFile();
+    printf("running \r\n");        
     Delay(5000);
   }
 }
