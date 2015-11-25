@@ -94,7 +94,7 @@
 */
 void ADCInit(void);
 void DMAInit(void);
-
+uint16_t ADC_Read(ADC_TypeDef* ADCx, uint8_t channel);
 
 #ifdef __cplusplus
 }

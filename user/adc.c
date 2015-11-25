@@ -183,15 +183,18 @@ void ADCInit(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
   
+    GPIO_StructInit(&GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
   
+    GPIO_StructInit(&GPIO_InitStructure); 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1| GPIO_Pin_2| GPIO_Pin_3| GPIO_Pin_4| GPIO_Pin_5 ;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
   
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9| GPIO_Pin_10 ;
+    GPIO_StructInit(&GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_7| GPIO_Pin_9| GPIO_Pin_10 ;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOF, &GPIO_InitStructure);
   
@@ -205,32 +208,16 @@ void ADCInit(void)
     //right 12-bit data alignment in ADC data register
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     //8 channels conversion
-    ADC_InitStructure.ADC_NbrOfChannel = 15;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
     //load structure values to control and status registers
     ADC_Init(ADC1, &ADC_InitStructure);
     //wake up temperature sensor
     //ADC_TempSensorVrefintCmd(ENABLE);
-    //configure each channel
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_0,   6, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_1,  15, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_2,   5, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_3,  12, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_4,   4, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_5,  11, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_6,   3, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_7,  10, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_8,   1, ADC_SampleTime_55Cycles5);
-  //ADC_RegularChannelConfig(ADC1, ADC_Channel_9,   9, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_10,  8, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 15, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_12,  7, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 14, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_14,  2, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_15,  9, ADC_SampleTime_55Cycles5);
+    
     //Enable ADC1
     ADC_Cmd(ADC1, ENABLE);
     //enable DMA for ADC
-    ADC_DMACmd(ADC1, ENABLE);
+    //ADC_DMACmd(ADC1, ENABLE);
     //Enable ADC1 reset calibration register
     ADC_ResetCalibration(ADC1);
     //Check the end of ADC1 reset calibration register
@@ -250,21 +237,16 @@ void ADCInit(void)
     //right 12-bit data alignment in ADC data register
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     //8 channels conversion
-    ADC_InitStructure.ADC_NbrOfChannel = 3;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
     //load structure values to control and status registers
     ADC_Init(ADC3, &ADC_InitStructure);
     //wake up temperature sensor
     //ADC_TempSensorVrefintCmd(ENABLE);
-    //configure each channel
-  //ADC_RegularChannelConfig(ADC3, ADC_Channel_4,   1, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_5,   2, ADC_SampleTime_55Cycles5);
-  //ADC_RegularChannelConfig(ADC3, ADC_Channel_6,   3, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_7,   1, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_8,   3, ADC_SampleTime_55Cycles5);
+
     //Enable ADC3
     ADC_Cmd(ADC3, ENABLE);
     //enable DMA for ADC
-    ADC_DMACmd(ADC3, ENABLE);
+    //ADC_DMACmd(ADC3, ENABLE);
     //Enable ADC3 reset calibration register
     ADC_ResetCalibration(ADC3);
     //Check the end of ADC3 reset calibration register
@@ -341,7 +323,7 @@ void DMAInit(void) {
 uint16_t ADC_Read(ADC_TypeDef* ADCx, uint8_t channel) {
 	uint32_t timeout = 0xFFF;
 	
-	ADC_RegularChannelConfig(ADCx, channel, 1, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADCx, channel, 1, ADC_SampleTime_28Cycles5);
 
 	/* Start software conversion */
 	ADCx->CR2 |= (uint32_t)ADC_CR2_SWSTART;
@@ -356,5 +338,7 @@ uint16_t ADC_Read(ADC_TypeDef* ADCx, uint8_t channel) {
 	/* Return result */
 	return ADCx->DR;
 }
+
+
 
 /******************* (C) COPYRIGHT 2010 ARMVietNam *****END OF FILE****/
