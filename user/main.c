@@ -89,11 +89,16 @@ void RTC_Configuration(void);
     UINT br, bw;         // File R/W count
     
     
-    enum cli{
-        Create_file = 0x31,
-        Write_file  = 0x32,
-        Read_file   = 0x33
+    enum CLI{
+      Create_file = 0x31,
+      Write_file  = 0x32,
+      Read_file   = 0x33
     } cmd;
+    
+    struct _CELL {
+      uint16_t Ch[24];
+      uint16_t Voltage;
+    } CELL;
     
 /* Private functions ---------------------------------------------------------*/
 
@@ -411,19 +416,29 @@ int main(void)
     Delay(2000);
     ADC_SoftwareStartConvCmd(ADC3, DISABLE);     
     
-    for(index = 0; index < 8; index++){ 
-        printf("     %4d",
-             (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4)); 
-    }
-    for(index = 0; index < 5; index++){ 
-        printf("     %4d",
-             (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4)); 
-    }
+//    for(index = 0; index < 14; index++){ 
+//        printf("     %4d",
+//             (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4)); 
+//    }
+//    for(index = 0; index < 2; index++){ 
+//        printf("     %4d",
+//             (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4)); 
+//    }
     
+    for(index = 0; index < 15; index++){ 
+        CELL.Ch[index] = (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4); 
+    }
+
+    for(index = 15; index < 17; index++){ 
+        CELL.Ch[index] = (uint16_t)((ADC_values3[index]+ADC_values3[index+8]+ADC_values3[index+16]+ADC_values3[index+24])/4); 
+    }
+
+    printf("%4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  %4d  ",
+           CELL.Ch[0] , CELL.Ch[1] , CELL.Ch[2] , CELL.Ch[3] , CELL.Ch[4] , CELL.Ch[5] , CELL.Ch[6] , CELL.Ch[7] , 
+           CELL.Ch[8] , CELL.Ch[9] , CELL.Ch[10], CELL.Ch[11], CELL.Ch[12], CELL.Ch[13], CELL.Ch[14], CELL.Ch[15] );
     //Delay(5000);
   }
 }
-
 
 /*************************************************************************
  * Function Name: Serial_Init

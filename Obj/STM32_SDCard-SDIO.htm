@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Obj\STM32_SDCard-SDIO.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Obj\STM32_SDCard-SDIO.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed Nov 25 12:49:19 2015
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed Nov 25 19:31:13 2015
 <BR><P>
-<H3>Maximum Stack Usage =         92 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        148 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; Serial_Init &rArr; USART_Init &rArr; RCC_GetClocksFreq
 <P>
@@ -467,8 +467,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 552 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = main &rArr; Serial_Init &rArr; USART_Init &rArr; RCC_GetClocksFreq
+<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 642 bytes, Stack size 56 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = main &rArr; Serial_Init &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Time_Adjust
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_WaitForSynchro
@@ -517,7 +517,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printf6.o(i.__0printf$6)
 </UL>
-<P><STRONG><a name="[c4]"></a>USART_Scanf</STRONG> (Thumb, 110 bytes, Stack size 24 bytes, main.o(.text))
+<P><STRONG><a name="[c4]"></a>USART_Scanf</STRONG> (Thumb, 352 bytes, Stack size 24 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = USART_Scanf &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ReceiveData
@@ -565,7 +565,7 @@ Global Symbols
 
 <P><STRONG><a name="[116]"></a>Calendar_DateUpdate</STRONG> (Thumb, 292 bytes, Stack size 0 bytes, rtc.o(.text), UNUSED)
 
-<P><STRONG><a name="[b5]"></a>ADCInit</STRONG> (Thumb, 504 bytes, Stack size 8 bytes, adc.o(.text))
+<P><STRONG><a name="[b5]"></a>ADCInit</STRONG> (Thumb, 468 bytes, Stack size 8 bytes, adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ADCInit &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_StructInit
