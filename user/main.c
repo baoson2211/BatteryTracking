@@ -411,7 +411,7 @@ int main(void)
     Delay(2000);
     ADC_SoftwareStartConvCmd(ADC3, DISABLE);     
     
-    for(index = 0; index < 16; index++){ 
+    for(index = 0; index < 8; index++){ 
         printf("     %4d",
              (uint16_t)((ADC_values1[index]+ADC_values1[index+8]+ADC_values1[index+16]+ADC_values1[index+24])/4)); 
     }
