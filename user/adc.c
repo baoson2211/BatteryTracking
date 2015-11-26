@@ -134,7 +134,7 @@ void ADCInit(void)
     //ADC_TempSensorVrefintCmd(ENABLE);
     //configure each channel
     ADC_RegularChannelConfig(ADC1, ADC_Channel_0,   6, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_1,  15, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1,  13, ADC_SampleTime_239Cycles5);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_2,   5, ADC_SampleTime_239Cycles5);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_3,  12, ADC_SampleTime_239Cycles5);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_4,   4, ADC_SampleTime_239Cycles5);
@@ -144,7 +144,7 @@ void ADCInit(void)
     ADC_RegularChannelConfig(ADC1, ADC_Channel_8,   1, ADC_SampleTime_239Cycles5);
   //ADC_RegularChannelConfig(ADC1, ADC_Channel_9,  16, ADC_SampleTime_239Cycles5);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_10,  8, ADC_SampleTime_239Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 13, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 15, ADC_SampleTime_239Cycles5);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_12,  7, ADC_SampleTime_239Cycles5);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 14, ADC_SampleTime_239Cycles5);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_14,  2, ADC_SampleTime_239Cycles5);
