@@ -84,11 +84,7 @@ volatile uint32_t status3 = 0;
 *															GLOBAL FUNCTIONS														*
 *************************************************************************************************************************************
 */
-/**
-  * @brief  	Main program.
-  * @param  	None
-  * @retval 	None
-//  */  
+
 //void ADC_PinConfig(void)
 //{
 //	
@@ -138,42 +134,12 @@ volatile uint32_t status3 = 0;
 //    	while(ADC_GetCalibrationStatus(ADC1));  
 //	/* Start ADC1 Software Conversion */ 
 //	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-
-//	
-//	/* start main program */
-//	GPIO_WriteBit(GPIOA, GPIO_Pin_1, 0);
-//	GPIO_WriteBit(GPIOB, GPIO_Pin_9, 0);
-//	while (1)	
-//	{
-//		for(i=0;i<16;i++)
-//		{
-//			GPIOA->CRL = 0x00033300;
-//			GPIO_WriteBit(GPIOB, GPIO_Pin_9, 1);
-//			ADC1->CR2 |= ADC_CR2_ADON;
-//			/* get adc raw value */
-//			//adc_raw_val = ADC_GetConversionValue(ADC1);
-//			while ((ADC1->SR & ADC_SR_EOC) == 0);
-//			
-//			GPIOA->CRL = 0x00033330;
-//			GPIO_WriteBit(GPIOA, GPIO_Pin_1, 0);
-//			GPIO_WriteBit(GPIOB, GPIO_Pin_9, 0);
-//			
-//			adc_raw_val += ADC1->DR;
-//		}
-//			/* calculate voltage value */
-//			//potentionmeter_val = adc_raw_val*ADC_VREF/ADC_12BIT_FACTOR;
-//			
-//			/* Output a message on Hyperterminal using printf function */
-//			//printf("\n\rPoten_Volt = %0.2fV\n\r", (f32)potentionmeter_val/100.0);
-//			printf("\n\rADC = %d\n\r", adc_raw_val);
-//			/* Insert delay */
-//			Delay(30);
-//	  
-//	}
 //}
 
 void ADCInit(void)
 {
+    uint8_t numChannels = 1; /* number of channel will be used */
+    
     //--Enable ADC1 ADC3 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 | RCC_APB2Periph_ADC3  | RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB 
                                                | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOF , ENABLE);
@@ -198,17 +164,20 @@ void ADCInit(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOF, &GPIO_InitStructure);
   
+    ADC_DeInit(ADC1);
+    ADC_StructInit(&ADC_InitStructure);
+    
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     //We will convert multiple channels
-    ADC_InitStructure.ADC_ScanConvMode = ENABLE;
+    ADC_InitStructure.ADC_ScanConvMode =  numChannels > 1 ? ENABLE : DISABLE;
     //select continuous conversion mode
-    ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;//!
+    ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//!
     //select no external triggering
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     //right 12-bit data alignment in ADC data register
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     //8 channels conversion
-    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    ADC_InitStructure.ADC_NbrOfChannel = numChannels;
     //load structure values to control and status registers
     ADC_Init(ADC1, &ADC_InitStructure);
     //wake up temperature sensor
@@ -227,17 +196,20 @@ void ADCInit(void)
     //Check the end of ADC1 calibration
     while(ADC_GetCalibrationStatus(ADC1));
     
+    ADC_DeInit(ADC3);
+    ADC_StructInit(&ADC_InitStructure);
+    
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     //We will convert multiple channels
-    ADC_InitStructure.ADC_ScanConvMode = ENABLE;
+    ADC_InitStructure.ADC_ScanConvMode = numChannels > 1 ? ENABLE : DISABLE;
     //select continuous conversion mode
     ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//!
     //select no external triggering
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     //right 12-bit data alignment in ADC data register
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-    //8 channels conversion
-    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    //numbers channels conversion
+    ADC_InitStructure.ADC_NbrOfChannel = numChannels;
     //load structure values to control and status registers
     ADC_Init(ADC3, &ADC_InitStructure);
     //wake up temperature sensor
