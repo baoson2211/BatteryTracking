@@ -56,6 +56,9 @@ extern volatile uint32_t status1, status3;
 #define NumberOfBlocks       2  /* For Multi Blocks operation (Read/Write) */
 #define MultiBufferWordsSize ((BlockSize * NumberOfBlocks) >> 2)
 
+#define TEST                 1
+#define RELEASE              0
+
 enum CLI{
       Create_file = 0x31,
       Write_file  = 0x32,
@@ -191,37 +194,37 @@ FRESULT scan_files (char* path)
 uint16_t ReadCell(uint8_t i) {
   switch (i) {
     case 0:
-      return ADC_Read(ADC1, ADC_Channel_8) ; break;
+      return ADC_Read(ADC1, ADC_Channel_8) ; Delay(50); break;
     case 1:
-      return ADC_Read(ADC1, ADC_Channel_14); break;
+      return ADC_Read(ADC1, ADC_Channel_14); Delay(50); break;
     case 2:
-      return ADC_Read(ADC1, ADC_Channel_6) ; break;
+      return ADC_Read(ADC1, ADC_Channel_6) ; Delay(50); break;
     case 3:  
-      return ADC_Read(ADC1, ADC_Channel_4) ; break;
+      return ADC_Read(ADC1, ADC_Channel_4) ; Delay(50); break;
     case 4:
-      return ADC_Read(ADC1, ADC_Channel_2) ; break;
+      return ADC_Read(ADC1, ADC_Channel_2) ; Delay(50); break;
     case 5:
-      return ADC_Read(ADC1, ADC_Channel_0) ; break;
+      return ADC_Read(ADC1, ADC_Channel_0) ; Delay(50); break;
     case 6:
-      return ADC_Read(ADC1, ADC_Channel_12); break;
+      return ADC_Read(ADC1, ADC_Channel_12); Delay(50); break;
     case 7:  
-      return ADC_Read(ADC1, ADC_Channel_10); break;
+      return ADC_Read(ADC1, ADC_Channel_10); Delay(50); break;
     case 8:  
-      return ADC_Read(ADC3, ADC_Channel_5) ; break;
+      return ADC_Read(ADC3, ADC_Channel_5) ; Delay(50); break;
     case 9:
-      return ADC_Read(ADC3, ADC_Channel_7) ; break;
+      return ADC_Read(ADC3, ADC_Channel_7) ; Delay(50); break;
     case 10:
-      return ADC_Read(ADC1, ADC_Channel_15); break;
+      return ADC_Read(ADC1, ADC_Channel_15); Delay(50); break;
     case 11:
-      return ADC_Read(ADC1, ADC_Channel_7) ; break;
+      return ADC_Read(ADC1, ADC_Channel_7) ; Delay(50); break;
     case 12:
-      return ADC_Read(ADC1, ADC_Channel_5) ; break;
+      return ADC_Read(ADC1, ADC_Channel_5) ; Delay(50); break;
     case 13:
-      return ADC_Read(ADC1, ADC_Channel_3) ; break;
+      return ADC_Read(ADC1, ADC_Channel_3) ; Delay(50); break;
     case 14:
-      return ADC_Read(ADC1, ADC_Channel_1) ; break;
+      return ADC_Read(ADC1, ADC_Channel_1) ; Delay(50); break;
     case 15:
-      return ADC_Read(ADC1, ADC_Channel_13); break;
+      return ADC_Read(ADC1, ADC_Channel_13); Delay(50); break;
     default:                                 break; 
   }
 }
@@ -447,13 +450,27 @@ int main(void)
   /* Enable ADC3 */
   ADC_Cmd(ADC3, ENABLE);
   
-  //printf("CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
+  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+  ADC_SoftwareStartConvCmd(ADC3, ENABLE);
   
+  //printf("CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
+  printf("      TIME         CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
+
   while (1)
   {
+    char time[16];
+#ifdef RELEASE
     WriteFile();
-    printf("running \r\n");        
-    Delay(5000);
+    printf("running \r\n"); 
+#endif    
+#ifdef TEST
+    sTime_Display(RTC_GetCounter(), time);
+    printf("%s",time);
+    for(index = 0; index < 16; index++){ 
+      printf("     %4d", ReadCell(index)); 
+    }
+#endif    
+    Delay(10000);
   }
 }
 
