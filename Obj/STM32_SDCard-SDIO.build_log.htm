@@ -4,58 +4,58 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 F:\ASELab\ASEAD\STM32-SDCard-SDIO-FATFS-V2\STM32-SDCard-SDIO.uvproj
-Project File Date:  11/24/2015
+Project File Date:  11/26/2015
 
 <h2>Output:</h2>
 Rebuild target 'STM32-SDCard-SDIO'
 compiling stm32f10x_it.c...
 compiling sdcard.c...
 compiling main.c...
-user\main.c(194): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_8) ; break;
 user\main.c(196): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_14); break;
+        return ADC_Read(ADC1, ADC_Channel_8) ; Delay(50); break;
 user\main.c(198): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_6) ; break;
+        return ADC_Read(ADC1, ADC_Channel_14); Delay(50); break;
 user\main.c(200): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_4) ; break;
+        return ADC_Read(ADC1, ADC_Channel_6) ; Delay(50); break;
 user\main.c(202): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_2) ; break;
+        return ADC_Read(ADC1, ADC_Channel_4) ; Delay(50); break;
 user\main.c(204): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_0) ; break;
+        return ADC_Read(ADC1, ADC_Channel_2) ; Delay(50); break;
 user\main.c(206): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_12); break;
+        return ADC_Read(ADC1, ADC_Channel_0) ; Delay(50); break;
 user\main.c(208): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_10); break;
+        return ADC_Read(ADC1, ADC_Channel_12); Delay(50); break;
 user\main.c(210): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC3, ADC_Channel_5) ; break;
+        return ADC_Read(ADC1, ADC_Channel_10); Delay(50); break;
 user\main.c(212): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC3, ADC_Channel_7) ; break;
+        return ADC_Read(ADC3, ADC_Channel_5) ; Delay(50); break;
 user\main.c(214): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_15); break;
+        return ADC_Read(ADC3, ADC_Channel_7) ; Delay(50); break;
 user\main.c(216): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_7) ; break;
+        return ADC_Read(ADC1, ADC_Channel_15); Delay(50); break;
 user\main.c(218): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_5) ; break;
+        return ADC_Read(ADC1, ADC_Channel_7) ; Delay(50); break;
 user\main.c(220): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_3) ; break;
+        return ADC_Read(ADC1, ADC_Channel_5) ; Delay(50); break;
 user\main.c(222): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_1) ; break;
+        return ADC_Read(ADC1, ADC_Channel_3) ; Delay(50); break;
 user\main.c(224): warning:  #111-D: statement is unreachable
-        return ADC_Read(ADC1, ADC_Channel_13); break;
-user\main.c(227): warning:  #940-D: missing return statement at end of non-void function "ReadCell"
+        return ADC_Read(ADC1, ADC_Channel_1) ; Delay(50); break;
+user\main.c(226): warning:  #111-D: statement is unreachable
+        return ADC_Read(ADC1, ADC_Channel_13); Delay(50); break;
+user\main.c(229): warning:  #940-D: missing return statement at end of non-void function "ReadCell"
   }
-user\main.c(230): warning:  #177-D: variable "res" was declared but never referenced
+user\main.c(232): warning:  #177-D: variable "res" was declared but never referenced
     FRESULT res;
-user\main.c(231): warning:  #177-D: variable "finfo" was declared but never referenced
+user\main.c(233): warning:  #177-D: variable "finfo" was declared but never referenced
     FILINFO finfo;
-user\main.c(232): warning:  #177-D: variable "dirs" was declared but never referenced
+user\main.c(234): warning:  #177-D: variable "dirs" was declared but never referenced
     DIR dirs;
-user\main.c(252): warning:  #177-D: variable "res" was declared but never referenced
+user\main.c(254): warning:  #177-D: variable "res" was declared but never referenced
     FRESULT res;
-user\main.c(253): warning:  #177-D: variable "finfo" was declared but never referenced
+user\main.c(255): warning:  #177-D: variable "finfo" was declared but never referenced
     FILINFO finfo;
-user\main.c(254): warning:  #177-D: variable "dirs" was declared but never referenced
+user\main.c(256): warning:  #177-D: variable "dirs" was declared but never referenced
     DIR dirs;
 user\main.c: 23 warnings, 0 errors
 compiling rtc.c...
@@ -76,11 +76,13 @@ compiling core_cm3.c...
 compiling ff.c...
 compiling diskio.c...
 linking...
-Program Size: Code=27204 RO-data=636 RW-data=172 ZI-data=5708  
+Program Size: Code=27680 RO-data=780 RW-data=172 ZI-data=5708  
 FromELF: creating hex file...
 ".\Obj\STM32_SDCard-SDIO.axf" - 0 Error(s), 23 Warning(s).
-  CELL09; CELL10; CELL11; CELL12;
-user\main.c: 6 warnings, 30 errors
+</pre>
+</body>
+</html>
+gs, 0 errors
 compiling rtc.c...
 compiling adc.c...
 compiling misc.c...
@@ -98,76 +100,10 @@ compiling system_stm32f10x.c...
 compiling core_cm3.c...
 compiling ff.c...
 compiling diskio.c...
-".\Obj\STM32_SDCard-SDIO.axf" - 30 Error(s), 6 Warning(s).
-Target not created
-        ADC_INT_InitPin(GPIOF, GPIO_PIN_6);
-user\adc.c(231): error:  #20: identifier "GPIO_PIN_5" is undefined
-                ADC_INT_InitPin(GPIOA, GPIO_PIN_5);
-user\adc.c(235): error:  #20: identifier "GPIO_PIN_7" is undefined
-                ADC_INT_InitPin(GPIOF, GPIO_PIN_7);
-user\adc.c(241): error:  #20: identifier "GPIO_PIN_6" is undefined
-                ADC_INT_InitPin(GPIOA, GPIO_PIN_6);
-user\adc.c(245): error:  #20: identifier "GPIO_PIN_8" is undefined
-                ADC_INT_InitPin(GPIOF, GPIO_PIN_8);
-user\adc.c(251): error:  #20: identifier "GPIO_PIN_7" is undefined
-                ADC_INT_InitPin(GPIOA, GPIO_PIN_7);
-user\adc.c(255): error:  #20: identifier "GPIO_PIN_9" is undefined
-                ADC_INT_InitPin(GPIOF, GPIO_PIN_9);
-user\adc.c(261): error:  #20: identifier "GPIO_PIN_0" is undefined
-                ADC_INT_InitPin(GPIOB, GPIO_PIN_0);
-user\adc.c(265): error:  #20: identifier "GPIO_PIN_10" is undefined
-                ADC_INT_InitPin(GPIOF, GPIO_PIN_10);
-user\adc.c(271): error:  #20: identifier "GPIO_PIN_1" is undefined
-                ADC_INT_InitPin(GPIOB, GPIO_PIN_1);
-user\adc.c: 0 warnings, 30 errors
-compiling misc.c...
-compiling stm32f10x_gpio.c...
-compiling stm32f10x_rcc.c...
-compiling stm32f10x_usart.c...
-compiling stm32f10x_sdio.c...
-compiling stm32f10x_dma.c...
-compiling stm32f10x_rtc.c...
-".\Obj\STM32_SDCard-SDIO.axf" - 31 Error(s), 7 Warning(s).
-Project build/rebuild aborted.
-...
-compiling stm32f10x_adc.c...
-".\Obj\STM32_SDCard-SDIO.axf" - 31 Error(s), 7 Warning(s).
-Project build/rebuild aborted.
-56): error:  #136: struct "<unnamed>" has no field "ADC_ExternalTrigConvEdge"
-        ADC_InitStruct.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
-user\adc.c(156): error:  #20: identifier "ADC_ExternalTrigConvEdge_None" is undefined
-        ADC_InitStruct.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
-user\adc.c(157): error:  #136: struct "<unnamed>" has no field "ADC_NbrOfConversion"
-        ADC_InitStruct.ADC_NbrOfConversion = 1;
-user\adc.c(166): error:  #136: struct "<unnamed>" has no field "ADC_Resolution"
-                ADC_InitStruct.ADC_Resolution = ADC1_RESOLUTION;
-user\adc.c(166): error:  #20: identifier "ADC_Resolution_12b" is undefined
-                ADC_InitStruct.ADC_Resolution = ADC1_RESOLUTION;
-user\adc.c(172): error:  #136: struct "<unnamed>" has no field "ADC_Resolution"
-                ADC_InitStruct.ADC_Resolution = ADC2_RESOLUTION;
-user\adc.c(172): error:  #20: identifier "ADC_Resolution_12b" is undefined
-                ADC_InitStruct.ADC_Resolution = ADC2_RESOLUTION;
-user\adc.c(178): error:  #136: struct "<unnamed>" has no field "ADC_Resolution"
-                ADC_InitStruct.ADC_Resolution = ADC3_RESOLUTION;
-user\adc.c(178): error:  #20: identifier "ADC_Resolution_12b" is undefined
-                ADC_InitStruct.ADC_Resolution = ADC3_RESOLUTION;
-user\adc.c(182): error:  #20: identifier "ADC_DMAAccessMode_Disabled" is undefined
-        ADC_CommonInitStruct.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
-user\adc.c: 0 warnings, 30 errors
-compiling misc.c...
-compiling stm32f10x_gpio.c...
-compiling stm32f10x_rcc.c...
-compiling stm32f10x_usart.c...
-compiling stm32f10x_sdio.c...
-compiling stm32f10x_dma.c...
-compiling stm32f10x_rtc.c...
-compiling stm32f10x_bkp.c...
-compiling stm32f10x_pwr.c...
-compiling stm32f10x_adc.c...
-assembling startup_stm32f10x_hd.s...
-compiling system_stm32f10x.c...
-compiling core_cm3.c...
-compiling ff.c...
-compiling diskio.c...
-".\Obj\STM32_SDCard-SDIO.axf" - 49 Error(s), 7 Warning(s).
-Target not created
+linking...
+Program Size: Code=27760 RO-data=780 RW-data=172 ZI-data=5604  
+FromELF: creating hex file...
+".\Obj\STM32_SDCard-SDIO.axf" - 0 Error(s), 28 Warning(s).
+ZI-data=5732  
+FromELF: creating hex file...
+".\Obj\STM32_SDCard-SDIO.axf" - 0 Error(s), 29 Warning(s).
