@@ -256,7 +256,7 @@ void DMAInit(void) {
     //chunk of data to be transfered
     DMA_InitStructure.DMA_BufferSize = ADC3_ARRAYSIZE;
     //source and destination start addresses
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->DR;
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &ADC3->DR;
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_values3;
     //send values to DMA registers
     DMA_Init(DMA2_Channel5, &DMA_InitStructure);
