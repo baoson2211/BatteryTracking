@@ -62,8 +62,9 @@
 *															PRIVATE TYPE	DEFINE														*
 *************************************************************************************************************************************
 */
-#define ARRAYSIZE1 15*4
-#define ARRAYSIZE3  3*4
+
+#define ADC1_ARRAYSIZE 15*4
+#define ADC3_ARRAYSIZE  3*4
 #define ADC1_DR    ((uint32_t)0x4001244C)
 #define ADC3_DR    ((uint32_t)0x40013C4C)
 

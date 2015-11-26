@@ -40,12 +40,11 @@ __IO uint8_t RxCounter1 = 0x00;
 uint8_t NbrOfDataToTransfer1 = TxBufferSize1;
 uint8_t NbrOfDataToRead1 = RxBufferSize1;
 
-static __IO uint8_t index;
 __IO uint32_t TimingDelay;
 
 extern __IO uint32_t TimeDisplay;
-extern volatile uint16_t ADC_values1[ARRAYSIZE1];
-extern volatile uint16_t ADC_values3[ARRAYSIZE3];
+extern volatile uint16_t ADC_values1[ADC1_ARRAYSIZE];
+extern volatile uint16_t ADC_values3[ADC3_ARRAYSIZE];
 extern volatile uint32_t status1, status3;
 
 /* Private define ------------------------------------------------------------*/
@@ -57,7 +56,7 @@ extern volatile uint32_t status1, status3;
 #define MultiBufferWordsSize ((BlockSize * NumberOfBlocks) >> 2)
 
 #define TEST                 1
-//#define RELEASE            
+#define RELEASE              1
 
 enum CLI{
       Create_file = 0x31,
@@ -256,6 +255,7 @@ void WriteFile(void)
   FILINFO finfo;
   DIR dirs;
   
+  uint8_t ch;
   char time[16];
   char string[9];
   
@@ -273,8 +273,8 @@ void WriteFile(void)
     f_sync(&fdst);
       
     //f_lseek(&fdst, fdst.fsize);
-    for(index = 0; index < 16; index++){ 
-      sprintf(string,"     %4d", ReadCell(index)); 
+    for(ch = 0; ch < 16; ch++){ 
+      sprintf(string,"     %4d", ReadCell(ch)); 
       f_write(&fdst, string, sizeof(string), &bw);
       f_sync(&fdst);
     }
@@ -339,7 +339,8 @@ void ReadFile(void)
 *******************************************************************************/
 int main(void)
 {
-  
+  char time[16];
+  uint8_t ch = 0;
 #ifdef DEBUG
   debug();
 #endif
@@ -355,7 +356,7 @@ int main(void)
   Serial_Init();
   
   ADCInit();
-  //DMAInit();
+  DMAInit();
   
   /////////////////////////////////////////////////////////////////////
   //////// SDCARD Initialisation //////////////////////////////////////
@@ -438,39 +439,69 @@ int main(void)
   CreateFile(); 
   
   //Enable DMA1 Channel transfer
-  //DMA_Cmd(DMA1_Channel1, ENABLE);
-  
-  /* Enable ADC1 */
-  ADC_Cmd(ADC1, ENABLE);
-  
+  DMA_Cmd(DMA1_Channel1, ENABLE);
+    
   //Enable DMA2 Channel transfer
+  DMA_Cmd(DMA2_Channel5, ENABLE);
   
-  //DMA_Cmd(DMA2_Channel5, ENABLE);
+  printf("      TIME      CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21\r\n");
   
-  /* Enable ADC3 */
-  ADC_Cmd(ADC3, ENABLE);
-  
-  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-  ADC_SoftwareStartConvCmd(ADC3, ENABLE);
-  
-  //printf("CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
-  printf("      TIME         CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
-
   while (1)
   {
-    char time[16];
-#ifdef RELEASE
+    
+#ifndef RELEASE
     WriteFile();
     printf("running \r\n"); 
 #endif    
-#ifdef TEST
+#ifdef TEST 
     sTime_Display(RTC_GetCounter(), time);
-    printf("%s",time);
-    for(index = 0; index < 16; index++){ 
-      printf("     %4d", ReadCell(index)); 
+    printf("%s",time);  
+    //Start ADC1 Software Conversion
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    //wait for DMA complete
+    Delay(10);
+    ADC_SoftwareStartConvCmd(ADC1, DISABLE);
+    for(ch = 0; ch < 15; ch++) {
+      printf("  %4d", (uint16_t) ADC_values1[ch]);
     }
-#endif
-    Delay(10000);
+    
+    //Start ADC3 Software Conversion
+    ADC_SoftwareStartConvCmd(ADC3, ENABLE);
+    //wait for DMA complete
+    Delay(10);
+    ADC_SoftwareStartConvCmd(ADC3, DISABLE);
+    for(ch = 0; ch < 3; ch++) {
+      printf("  %4d", (uint16_t) ADC_values3[ch]);
+    }
+
+//    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+//    ADC_SoftwareStartConvCmd(ADC3, ENABLE);
+//    printf("  %4d", ReadCell( 0));
+//    printf("  %4d", ReadCell( 1));
+//    printf("  %4d", ReadCell( 2));
+//    printf("  %4d", ReadCell( 3));
+//    printf("  %4d", ReadCell( 4));
+//    printf("  %4d", ReadCell( 5));
+//    printf("  %4d", ReadCell( 6));
+//    printf("  %4d", ReadCell( 7));
+//    printf("  %4d", ReadCell( 8));
+//    printf("  %4d", ReadCell( 9));
+//    printf("  %4d", ReadCell(10));
+//    printf("  %4d", ReadCell(11));
+//    printf("  %4d", ReadCell(12));
+//    printf("  %4d", ReadCell(13));
+//    printf("  %4d", ReadCell(14));
+//    printf("  %4d", ReadCell(15)); 
+//    printf("  %4d", ReadCell(16));
+//    printf("  %4d", ReadCell(17));
+//    printf("  %4d", ReadCell(18));
+//    printf("  %4d", ReadCell(19));
+//    printf("  %4d", ReadCell(20));
+//    ADC_SoftwareStartConvCmd(ADC1, DISABLE);
+//    ADC_SoftwareStartConvCmd(ADC3, DISABLE);
+    
+#endif    
+    Delay(2000);
   }
 }
 
@@ -575,7 +606,7 @@ void NVIC_Configuration(void)
 
   NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 
@@ -587,7 +618,13 @@ void NVIC_Configuration(void)
 	NVIC_Init(&NVIC_InitStructure);
 
 	/* Enable the DMA Interrupt */  
-  NVIC_InitStructure.NVIC_IRQChannel = (DMA1_Channel1_IRQn | DMA2_Channel4_5_IRQn);
+  NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  
+  NVIC_InitStructure.NVIC_IRQChannel = DMA2_Channel4_5_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;

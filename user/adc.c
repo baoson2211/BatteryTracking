@@ -69,8 +69,8 @@ DMA_InitTypeDef  DMA_InitStructure;
 u16 adc_raw_val = 0;
 u16 potentionmeter_val = 0;
 
-volatile uint16_t ADC_values1[ARRAYSIZE1];
-volatile uint16_t ADC_values3[ARRAYSIZE3];
+volatile uint16_t ADC_values1[ADC1_ARRAYSIZE];
+volatile uint16_t ADC_values3[ADC3_ARRAYSIZE];
 volatile uint32_t status1 = 0;  
 volatile uint32_t status3 = 0;
 /*
@@ -138,8 +138,9 @@ volatile uint32_t status3 = 0;
 
 void ADCInit(void)
 {
-    uint8_t numChannels = 1; /* number of channel will be used */
-    
+    uint8_t ADC1numChannels = 15; /* number of channel will be used */
+    uint8_t ADC3numChannels = 3; /* number of channel will be used */
+  
     //--Enable ADC1 ADC3 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 | RCC_APB2Periph_ADC3  | RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB 
                                                | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOF , ENABLE);
@@ -160,7 +161,7 @@ void ADCInit(void)
     GPIO_Init(GPIOC, &GPIO_InitStructure);
   
     GPIO_StructInit(&GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_7| GPIO_Pin_9| GPIO_Pin_10 ;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6| GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9| GPIO_Pin_10 ;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init(GPIOF, &GPIO_InitStructure);
   
@@ -169,7 +170,7 @@ void ADCInit(void)
     
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     //We will convert multiple channels
-    ADC_InitStructure.ADC_ScanConvMode =  numChannels > 1 ? ENABLE : DISABLE;
+    ADC_InitStructure.ADC_ScanConvMode =  ADC1numChannels > 1 ? ENABLE : DISABLE;
     //select continuous conversion mode
     ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//!
     //select no external triggering
@@ -177,16 +178,33 @@ void ADCInit(void)
     //right 12-bit data alignment in ADC data register
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     //8 channels conversion
-    ADC_InitStructure.ADC_NbrOfChannel = numChannels;
+    ADC_InitStructure.ADC_NbrOfChannel =  ADC1numChannels;
     //load structure values to control and status registers
     ADC_Init(ADC1, &ADC_InitStructure);
     //wake up temperature sensor
     //ADC_TempSensorVrefintCmd(ENABLE);
+    //configure each channel
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_0,   6, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1,  15, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_2,   5, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_3,  12, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_4,   4, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_5,  11, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_6,   3, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_7,  10, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_8,   1, ADC_SampleTime_55Cycles5);
+  //ADC_RegularChannelConfig(ADC1, ADC_Channel_9,   9, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_10,  8, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 15, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_12,  7, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 14, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_14,  2, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_15,  9, ADC_SampleTime_55Cycles5);
     
     //Enable ADC1
     ADC_Cmd(ADC1, ENABLE);
     //enable DMA for ADC
-    //ADC_DMACmd(ADC1, ENABLE);
+    ADC_DMACmd(ADC1, ENABLE);
     //Enable ADC1 reset calibration register
     ADC_ResetCalibration(ADC1);
     //Check the end of ADC1 reset calibration register
@@ -201,7 +219,7 @@ void ADCInit(void)
     
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     //We will convert multiple channels
-    ADC_InitStructure.ADC_ScanConvMode = numChannels > 1 ? ENABLE : DISABLE;
+    ADC_InitStructure.ADC_ScanConvMode = ADC3numChannels > 1 ? ENABLE : DISABLE;
     //select continuous conversion mode
     ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//!
     //select no external triggering
@@ -209,16 +227,22 @@ void ADCInit(void)
     //right 12-bit data alignment in ADC data register
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     //numbers channels conversion
-    ADC_InitStructure.ADC_NbrOfChannel = numChannels;
+    ADC_InitStructure.ADC_NbrOfChannel = ADC3numChannels;
     //load structure values to control and status registers
     ADC_Init(ADC3, &ADC_InitStructure);
     //wake up temperature sensor
     //ADC_TempSensorVrefintCmd(ENABLE);
+    //configure each channel
+  //ADC_RegularChannelConfig(ADC3, ADC_Channel_4,   1, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_5,   2, ADC_SampleTime_55Cycles5);
+  //ADC_RegularChannelConfig(ADC3, ADC_Channel_6,   3, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_7,   1, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_8,   3, ADC_SampleTime_55Cycles5);
 
     //Enable ADC3
     ADC_Cmd(ADC3, ENABLE);
     //enable DMA for ADC
-    //ADC_DMACmd(ADC3, ENABLE);
+    ADC_DMACmd(ADC3, ENABLE);
     //Enable ADC3 reset calibration register
     ADC_ResetCalibration(ADC3);
     //Check the end of ADC3 reset calibration register
@@ -251,7 +275,7 @@ void DMAInit(void) {
     //Location assigned to peripheral register will be source
     DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
     //chunk of data to be transfered
-    DMA_InitStructure.DMA_BufferSize = ARRAYSIZE1;
+    DMA_InitStructure.DMA_BufferSize = ADC1_ARRAYSIZE;
     //source and destination start addresses
     DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADC1_DR;
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_values1;
@@ -281,7 +305,7 @@ void DMAInit(void) {
     //Location assigned to peripheral register will be source
     DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
     //chunk of data to be transfered
-    DMA_InitStructure.DMA_BufferSize = ARRAYSIZE3;
+    DMA_InitStructure.DMA_BufferSize = ADC3_ARRAYSIZE;
     //source and destination start addresses
     DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADC3_DR;
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_values3;
@@ -295,7 +319,7 @@ void DMAInit(void) {
 uint16_t ADC_Read(ADC_TypeDef* ADCx, uint8_t channel) {
 	uint32_t timeout = 0xFFF;
 	
-	ADC_RegularChannelConfig(ADCx, channel, 1, ADC_SampleTime_28Cycles5);
+	ADC_RegularChannelConfig(ADCx, channel, 1, ADC_SampleTime_239Cycles5);
 
 	/* Start software conversion */
 	ADCx->CR2 |= (uint32_t)ADC_CR2_SWSTART;
