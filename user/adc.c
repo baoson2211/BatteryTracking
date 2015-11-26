@@ -85,57 +85,6 @@ volatile uint32_t status3 = 0;
 *************************************************************************************************************************************
 */
 
-//void ADC_PinConfig(void)
-//{
-//	
-//		/* 
-//	  *	kich ADC pins	
-//	  */
-//		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-//	  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-//		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//		GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-//	/* Configure PA.02 (ADC Channel2) as analog input -------------------------*/
-//  	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-//  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-//		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//  	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-//	/* Configure clocks for ADC and GPIO PORT */
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
-
-//	/* ADCx configuration ------------------------------------------------------*/
-//  	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-//  	ADC_InitStructure.ADC_ScanConvMode = DISABLE;
-//  	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
-//  	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
-//  	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-//  	ADC_InitStructure.ADC_NbrOfChannel = 1;
-//  	ADC_Init(ADC1, &ADC_InitStructure);	
-//	  /* ADC1 Regular Channel 2 Configuration */
-//	  ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_28Cycles5);		
-//  	/* Enable ADC1 */
-//  	//ADC_Cmd(ADC1, ENABLE);  
-//    ADC1->CR2 |= ADC_CR2_ADON;		
-
-//	/* Enable Vrefint channel enable temperature sensor for ADC module */
-//	ADC_TempSensorVrefintCmd(ENABLE);
-
-//	/* Enable ADC1 reset calibaration register */   
-//    	ADC_ResetCalibration(ADC1);
-
-//    	/* Check the end of ADC1 reset calibration register */
-//    	while(ADC_GetResetCalibrationStatus(ADC1));
-
-//    	/* Start ADC1 calibaration */
-//    	ADC_StartCalibration(ADC1);
-//    	/* Check the end of ADC1 calibration */
-//    	while(ADC_GetCalibrationStatus(ADC1));  
-//	/* Start ADC1 Software Conversion */ 
-//	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-//}
-
 void ADCInit(void)
 {
     uint8_t ADC1numChannels = 15; /* number of channel will be used */
@@ -184,22 +133,22 @@ void ADCInit(void)
     //wake up temperature sensor
     //ADC_TempSensorVrefintCmd(ENABLE);
     //configure each channel
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_0,   6, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_1,  15, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_2,   5, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_3,  12, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_4,   4, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_5,  11, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_6,   3, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_7,  10, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_8,   1, ADC_SampleTime_55Cycles5);
-  //ADC_RegularChannelConfig(ADC1, ADC_Channel_9,   9, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_10,  8, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 15, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_12,  7, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 14, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_14,  2, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_15,  9, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_0,   6, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1,  15, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_2,   5, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_3,  12, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_4,   4, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_5,  11, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_6,   3, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_7,  10, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_8,   1, ADC_SampleTime_239Cycles5);
+  //ADC_RegularChannelConfig(ADC1, ADC_Channel_9,  16, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_10,  8, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 13, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_12,  7, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 14, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_14,  2, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_15,  9, ADC_SampleTime_239Cycles5);
     
     //Enable ADC1
     ADC_Cmd(ADC1, ENABLE);
@@ -233,11 +182,11 @@ void ADCInit(void)
     //wake up temperature sensor
     //ADC_TempSensorVrefintCmd(ENABLE);
     //configure each channel
-  //ADC_RegularChannelConfig(ADC3, ADC_Channel_4,   1, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_5,   2, ADC_SampleTime_55Cycles5);
-  //ADC_RegularChannelConfig(ADC3, ADC_Channel_6,   3, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_7,   1, ADC_SampleTime_55Cycles5);
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_8,   3, ADC_SampleTime_55Cycles5);
+  //ADC_RegularChannelConfig(ADC3, ADC_Channel_4,   1, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_5,   2, ADC_SampleTime_239Cycles5);
+  //ADC_RegularChannelConfig(ADC3, ADC_Channel_6,   3, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_7,   1, ADC_SampleTime_239Cycles5);
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_8,   3, ADC_SampleTime_239Cycles5);
 
     //Enable ADC3
     ADC_Cmd(ADC3, ENABLE);
@@ -277,7 +226,7 @@ void DMAInit(void) {
     //chunk of data to be transfered
     DMA_InitStructure.DMA_BufferSize = ADC1_ARRAYSIZE;
     //source and destination start addresses
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADC1_DR;
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->DR;
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_values1;
     //send values to DMA registers
     DMA_Init(DMA1_Channel1, &DMA_InitStructure);
@@ -307,7 +256,7 @@ void DMAInit(void) {
     //chunk of data to be transfered
     DMA_InitStructure.DMA_BufferSize = ADC3_ARRAYSIZE;
     //source and destination start addresses
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADC3_DR;
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->DR;
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_values3;
     //send values to DMA registers
     DMA_Init(DMA2_Channel5, &DMA_InitStructure);
