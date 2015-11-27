@@ -40,12 +40,6 @@
 *															PRIVATE DEFINE															*
 *************************************************************************************************************************************
 */
-/* constant for adc resolution is 12 bit = 4096 */
-#define ADC_12BIT_FACTOR	4096
-
-/* constant for adc threshold value 3.3V */
-#define ADC_VREF			330
-uint8_t i;
 
 /*
 *************************************************************************************************************************************
@@ -71,8 +65,8 @@ u16 potentionmeter_val = 0;
 
 volatile uint16_t ADC1_values[ADC1_ARRAYSIZE];
 volatile uint16_t ADC3_values[ADC3_ARRAYSIZE];
-volatile uint32_t statusADC1 = 0;  
-volatile uint32_t statusADC3 = 0;
+volatile uint8_t statusADC1 = 0;  
+volatile uint8_t statusADC3 = 0;
 /*
 *************************************************************************************************************************************
 *							  								LOCAL FUNCTIONS															*
