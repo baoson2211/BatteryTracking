@@ -21,6 +21,7 @@
 .\obj\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
 .\obj\main.o: user\adc.h
 .\obj\main.o: user\rtc.h
+.\obj\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
 .\obj\main.o: user\gpio.h
 .\obj\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
 .\obj\main.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h

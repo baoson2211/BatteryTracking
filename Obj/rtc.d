@@ -1,9 +1,8 @@
 .\obj\rtc.o: user\rtc.c
 .\obj\rtc.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
-.\obj\rtc.o: user\rtc.h
+.\obj\rtc.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
 .\obj\rtc.o: user\stm32f10x.h
 .\obj\rtc.o: user\core_cm3.h
-.\obj\rtc.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
 .\obj\rtc.o: user\system_stm32f10x.h
 .\obj\rtc.o: user\stm32f10x_conf.h
 .\obj\rtc.o: .\FWlib\inc\stm32f10x_dma.h
@@ -12,7 +11,12 @@
 .\obj\rtc.o: .\FWlib\inc\stm32f10x_rcc.h
 .\obj\rtc.o: .\FWlib\inc\stm32f10x_sdio.h
 .\obj\rtc.o: .\FWlib\inc\misc.h
+.\obj\rtc.o: user\main.h
+.\obj\rtc.o: .\FWlib\inc\stm32f10x_adc.h
+.\obj\rtc.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\rtc.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\rtc.o: .\FWlib\inc\stm32f10x_pwr.h
 .\obj\rtc.o: .\FWlib\inc\stm32f10x_rtc.h
 .\obj\rtc.o: .\FWlib\inc\stm32f10x_usart.h
+.\obj\rtc.o: user\rtc.h
+.\obj\rtc.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
