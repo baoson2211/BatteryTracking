@@ -23,284 +23,456 @@
 *															INCLUDED FILES															*
 *************************************************************************************************************************************
 */
+
+
+
+///** @addtogroup STM32F10x_GEM3M_Examples
+//  * @{
+//  */
+
+///** @addtogroup RTC_Calendar
+//  * @{
+//  */  
+
+
 #include <stdio.h>
+#include <stdint.h>
+#include "stm32f10x.h"
+#include "main.h"
 #include "rtc.h"
 
+#define FIRSTYEAR   2000		// start year
+#define FIRSTDAY    6			  // 0 = Sunday
 
-/** @addtogroup STM32F10x_GEM3M_Examples
-  * @{
-  */
-
-/** @addtogroup RTC_Calendar
-  * @{
-  */  
-
-  
-/*
-*************************************************************************************************************************************
-*															PRIVATE DEFINE															*
-*************************************************************************************************************************************
-*/
-struct date_t
-{
-  __IO uint8_t month;
-  __IO uint8_t day;
-  __IO uint16_t year;
-};
-struct date_t date_s;
-
-
-typedef struct {
-        uint16_t year;  /* 1..4095 */
-        uint8_t  month; /* 1..12 */
-        uint8_t  mday;  /* 1.. 31 */
-        uint8_t  wday;  /* 0..6, Sunday = 0*/
-        uint8_t  hour;  /* 0..23 */
-        uint8_t  min;   /* 0..59 */
-        uint8_t  sec;   /* 0..59 */
-        uint8_t  dst;   /* 0 Winter, !=0 Summer */
-} RTC_t;
-
-/*
-*************************************************************************************************************************************
-*														 	DATA TYPE DEFINE															*
-*************************************************************************************************************************************
-*/
-
-
-/*
-*************************************************************************************************************************************
-*													   		PRIVATE VARIABLES														*
-*************************************************************************************************************************************
-*/ 
 __IO uint32_t TimeDisplay = 0;
-//__IO uint32_t index = 0;
-//__IO uint32_t index1 = 0;
-//__IO uint32_t index2=0;
-/*
-*************************************************************************************************************************************
-*							  								LOCAL FUNCTIONS															*
-*************************************************************************************************************************************
-*/
-/**
-  * @brief  	Configures the different system clocks.
-  * @param  	None
-  * @retval 	None
-  */
-  extern u8 USART_Scanf(u32 value);
-/*
-*************************************************************************************************************************************
-*															GLOBAL FUNCTIONS														*
-*************************************************************************************************************************************
-*/
-/**
-  * @brief  Returns the time entered by user, using Hyperterminal.
-  * @param  None
-  * @retval Current time RTC counter value
-  */
-  
-uint32_t Time_Regulate(void)
+
+static const uint8_t DaysInMonth[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+/*******************************************************************************
+* Function Name  : isDST
+* Description    : checks if given time is in Daylight Saving time-span.
+* Input          : time-struct, must be fully populated including weekday
+* Output         : none
+* Return         : false: no DST ("winter"), true: in DST ("summer")
+*  DST according to German standard
+*  Based on code from Peter Dannegger found in the microcontroller.net forum.
+*******************************************************************************/
+static bool isDST( const RTC_t *t )
 {
-	uint32_t Tmp_HH = 0xFF, Tmp_MM = 0xFF, Tmp_SS = 0xFF;
-  date_s.day = 0xFF, date_s.month = 0xFF, date_s.year = 0xFF;
+/*
+ * Cannot necessary @ several countries
+ */
+	uint8_t wday, month;		// locals for faster access
+
+	month = t->month;
+
+	if( month < 3 || month > 10 ) {		// month 1, 2, 11, 12
+		return false;					// -> Winter
+	}
+
+	wday  = t->wday;
+
+	if( t->mday - wday >= 25 && (wday || t->hour >= 2) ) { // after last Sunday 2:00
+		if( month == 10 ) {				// October -> Winter
+			return false;
+		}
+	} else {							// before last Sunday 2:00
+		if( month == 3 ) {				// March -> Winter
+			return false;
+		}
+	}
+
+	
+  return true;
+}
+
+/*******************************************************************************
+* Function Name  : adjustDST
+* Description    : adjusts time to DST if needed
+* Input          : non DST time-struct, must be fully populated including weekday
+* Output         : time-stuct gets modified
+* Return         : false: no DST ("winter"), true: in DST ("summer")
+*  DST according to German standard
+*  Based on code from Peter Dannegger found in the mikrocontroller.net forum.
+*******************************************************************************/
+static bool adjustDST( RTC_t *t )
+{
+	uint8_t hour, day, wday, month;			// locals for faster access
+
+	hour  = t->hour;
+	day   = t->mday;
+	wday  = t->wday;
+	month = t->month;
+
+	if ( isDST(t) ) {
+		t->dst = 1;
+		hour++;								// add one hour
+		if( hour == 24 ){					// next day
+			hour = 0;
+			wday++;							// next weekday
+			if( wday == 7 ) {
+				wday = 0;
+			}
+			if( day == DaysInMonth[month-1] ) {		// next month
+				day = 0;
+				month++;
+			}
+			day++;
+		}
+		t->month = month;
+		t->hour  = hour;
+		t->mday  = day;
+		t->wday  = wday;
+		return true;
+	} else {
+		t->dst = 0;
+		return false;
+	}
+}
+
+/*******************************************************************************
+* Function Name  : counter_to_struct
+* Description    : populates time-struct based on counter-value
+* Input          : - counter-value (unit seconds, 0 -> 1.1.2000 00:00:00),
+*                  - Pointer to time-struct
+* Output         : time-struct gets populated, DST not taken into account here
+* Return         : none
+*******************************************************************************/
+static void counter_to_struct( uint32_t sec, RTC_t *t )
+{
+	uint16_t day;
+	uint8_t year;
+	uint16_t dayofyear;
+	uint8_t leap400;
+	uint8_t month;
+
+	t->sec = sec % 60;
+	sec /= 60;
+	t->min = sec % 60;
+	sec /= 60;
+	t->hour = sec % 24;
+	day = (uint16_t)(sec / 24);
+
+	t->wday = (day + FIRSTDAY) % 7;		// weekday
+
+	year = FIRSTYEAR % 100;				// 0..99
+	leap400 = 4 - ((FIRSTYEAR - 1) / 100 & 3);	// 4, 3, 2, 1
+
+	for(;;) {
+		dayofyear = 365;
+		if( (year & 3) == 0 ) {
+			dayofyear = 366;					// leap year
+			if( year == 0 || year == 100 || year == 200 ) {	// 100 year exception
+				if( --leap400 ) {					// 400 year exception
+					dayofyear = 365;
+				}
+			}
+		}
+		if( day < dayofyear ) {
+			break;
+		}
+		day -= dayofyear;
+		year++;					// 00..136 / 99..235
+	}
+	t->year = year + FIRSTYEAR / 100 * 100;	// + century
+
+	if( dayofyear & 1 && day > 58 ) { 	// no leap year and after 28.2.
+		day++;					// skip 29.2.
+	}
+
+	for( month = 1; day >= DaysInMonth[month-1]; month++ ) {
+		day -= DaysInMonth[month-1];
+	}
+
+	t->month = month;				// 1..12
+	t->mday = day + 1;				// 1..31
+}
+
+
+/*******************************************************************************
+* Function Name  : struct_to_counter
+* Description    : calculates second-counter from populated time-struct
+* Input          : Pointer to time-struct
+* Output         : none
+* Return         : counter-value (unit seconds, 0 -> 1.1.2000 00:00:00),
+*******************************************************************************/
+static uint32_t struct_to_counter( const RTC_t *t )
+{
+	uint8_t i;
+	uint32_t result = 0;
+	uint16_t idx, year;
+
+	year = t->year;
+
+	/* Calculate days of years before */
+	result = (uint32_t)year * 365;
+	if (t->year >= 1) {
+		result += (year + 3) / 4;
+		result -= (year - 1) / 100;
+		result += (year - 1) / 400;
+	}
+
+	/* Start with 2000 a.d. */
+	result -= 730485UL;
+
+	/* Make month an array index */
+	idx = t->month - 1;
+
+	/* Loop thru each month, adding the days */
+	for (i = 0; i < idx; i++) {
+		result += DaysInMonth[i];
+	}
+
+	/* Leap year? adjust February */
+	if (year%400 == 0 || (year%4 == 0 && year%100 !=0)) {
+		;
+	} else {
+		if (t->month > 2) {
+			result--;
+		}
+	}
+
+	/* Add remaining days */
+	result += t->mday;
+
+	/* Convert to seconds, add all the other stuff */
+	result = (result-1) * 86400L + (uint32_t)t->hour * 3600 +
+		(uint32_t)t->min * 60 + t->sec;
+
+	return result;
+}
+
+/*******************************************************************************
+* Function Name  : rtc_gettime
+* Description    : populates structure from HW-RTC, takes DST into account
+* Input          : None
+* Output         : time-struct gets modified
+* Return         : always true/not used
+*******************************************************************************/
+bool rtc_gettime (RTC_t *rtc)
+{
+	uint32_t t;
+
+	while ( ( t = RTC_GetCounter() ) != RTC_GetCounter() ) { ; }
+	counter_to_struct( t, rtc ); // get non DST time
+	adjustDST( rtc );
+
+	return true;
+}
+
+/*******************************************************************************
+* Function Name  : my_RTC_SetCounter
+* Description    : sets the hardware-counter
+* Input          : new counter-value
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void my_RTC_SetCounter(uint32_t cnt)
+{
+	/* Allow access to BKP Domain */
+	//PWR_BackupAccessCmd(ENABLE);
+	/* Wait until last write operation on RTC registers has finished */
+	RTC_WaitForLastTask();
+	/* Change the current time */
+	RTC_SetCounter(cnt);
+	/* Wait until last write operation on RTC registers has finished */
+	RTC_WaitForLastTask();
+	//PWR_BackupAccessCmd(DISABLE);
+}
+
+/*******************************************************************************
+* Function Name  : rtc_settime
+* Description    : sets HW-RTC with values from time-struct, takes DST into
+*                  account, HW-RTC always running in non-DST time
+* Input          : None
+* Output         : None
+* Return         : not used
+*******************************************************************************/
+bool rtc_settime (const RTC_t *rtc)
+{
+	uint32_t cnt;
+	RTC_t ts;
+
+	cnt = struct_to_counter( rtc ); // non-DST counter-value
+	counter_to_struct( cnt, &ts );  // normalize struct (for weekday)
+	if ( isDST( &ts ) ) {
+		cnt -= 60*60; // Subtract one hour
+	}
+	my_RTC_SetCounter( cnt );
+
+	return true;
+}
+
+/*******************************************************************************
+* Function Name  : rtc_init
+* Description    : initializes HW RTC,
+*                  sets default time-stamp if RTC has not been initialized before
+* Input          : None
+* Output         : None
+* Return         : not used
+*  Based on code from a STM RTC example in the StdPeriph-Library package
+*******************************************************************************/
+int rtc_init(void)
+{
+	volatile uint16_t i;
+
+	/* Enable PWR and BKP clocks */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
+
+	/* LSI clock stabilization time */
+	for(i=0;i<5000;i++) { ; }
+
+	if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A5) {
+		/* Backup data register value is not correct or not yet programmed (when
+		   the first time the program is executed) */
+
+		/* Allow access to BKP Domain */
+		PWR_BackupAccessCmd(ENABLE);
+
+		/* Reset Backup Domain */
+		BKP_DeInit();
+
+		/* Enable LSE */
+		RCC_LSEConfig(RCC_LSE_ON);
+
+		/* Wait till LSE is ready */
+		while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET) { ; }
+
+		/* Select LSE as RTC Clock Source */
+		RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
+
+		/* Enable RTC Clock */
+		RCC_RTCCLKCmd(ENABLE);
+
+		/* Wait for RTC registers synchronization */
+		RTC_WaitForSynchro();
+
+		/* Wait until last write operation on RTC registers has finished */
+		RTC_WaitForLastTask();
+
+		/* Set RTC prescaler: set RTC period to 1sec */
+		RTC_SetPrescaler(32767); /* RTC period = RTCCLK/RTC_PR = (32.768 KHz)/(32767+1) */
+
+		/* Wait until last write operation on RTC registers has finished */
+		RTC_WaitForLastTask();
+
+		/* Set initial value */
+		RTC_SetCounter( (uint32_t)((11*60+55)*60) ); // here: 1st January 2000 11:55:00
+
+		/* Wait until last write operation on RTC registers has finished */
+		RTC_WaitForLastTask();
+
+		BKP_WriteBackupRegister(BKP_DR1, 0xA5A5);
+
+		/* Lock access to BKP Domain */
+		PWR_BackupAccessCmd(DISABLE);
+
+	} else {
+
+		/* Wait for RTC registers synchronization */
+		RTC_WaitForSynchro();
+
+	}
+  
+  return 0;
+}
+
+
+/**
+  * @brief  Configures the RTC.
+  * @param  None
+  * @retval None
+  */
+void RTC_Configuration(void)
+{
+	/* Enable PWR and BKP clocks */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
+
+	/* Allow access to BKP Domain */
+	PWR_BackupAccessCmd(ENABLE);
+
+	/* Reset Backup Domain */
+	BKP_DeInit();
+
+	/* Enable LSE */
+	RCC_LSEConfig(RCC_LSE_ON);
+	/* Wait till LSE is ready */
+	while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET)
+	{}
+
+	/* Select LSE as RTC Clock Source */
+	RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
+
+	/* Enable RTC Clock */
+	RCC_RTCCLKCmd(ENABLE);
+
+	/* Wait for RTC registers synchronization */
+	RTC_WaitForSynchro();
+
+	/* Wait until last write operation on RTC registers has finished */
+	RTC_WaitForLastTask();
+
+	/* Enable the RTC Second */
+	RTC_ITConfig(RTC_IT_SEC, ENABLE);
+
+	/* Wait until last write operation on RTC registers has finished */
+	RTC_WaitForLastTask();
+
+	/* Set RTC prescaler: set RTC period to 1sec */
+	RTC_SetPrescaler(32767); /* RTC period = RTCCLK/RTC_PR = (32.768 KHz)/(32767+1) */
+
+	/* Wait until last write operation on RTC registers has finished */
+	RTC_WaitForLastTask();
+}
+
+void Time_Regulate(RTC_t * RTC_time)
+{
+	RTC_time->hour = 0xFF, RTC_time->min = 0xFF, RTC_time->sec = 0xFF;
+  RTC_time->mday = 0xFF, RTC_time->month = 0xFF, RTC_time->year = 0xFF;
 
 	printf("\r\n==============Time Settings=====================================");
 	printf("\r\n  Please Set Hours");
 
-	while (Tmp_HH == 0xFF)
+	while (RTC_time->hour == 0xFF)
 	{
-		Tmp_HH = USART_Scanf(23);
+		RTC_time->hour = USART_Scanf(23);
 	}
-	printf(":  %d", Tmp_HH);
+	printf(":  %d", RTC_time->hour);
 	printf("\r\n  Please Set Minutes");
-	while (Tmp_MM == 0xFF)
+	while (RTC_time->min == 0xFF)
 	{
-		Tmp_MM = USART_Scanf(59);
+		RTC_time->min = USART_Scanf(59);
 	}
-	printf(":  %d", Tmp_MM);
+	printf(":  %d", RTC_time->min);
 	printf("\r\n  Please Set Seconds");
-	while (Tmp_SS == 0xFF)
+	while (RTC_time->sec == 0xFF)
 	{
-		Tmp_SS = USART_Scanf(59);
+		RTC_time->sec = USART_Scanf(59);
 	}
-	printf(":  %d", Tmp_SS);
+	printf(":  %d", RTC_time->sec);
   
 	printf("\r\n  Please Set Day");
-	while (date_s.day == 0xFF)
+	while (RTC_time->mday == 0xFF)
 	{
-		 date_s.day = USART_Scanf(31);
+		 RTC_time->mday = USART_Scanf(31);
 	}
-	printf(":  %d", date_s.day);
+	printf(":  %d", RTC_time->mday);
   
   printf("\r\n  Please Set Month");
-	while (date_s.month == 0xFF)
+	while (RTC_time->month == 0xFF)
 	{
-		date_s.month= USART_Scanf(12);
+		RTC_time->month= USART_Scanf(12);
 	}
-	printf(":  %d", date_s.month);
+	printf(":  %d", RTC_time->month);
   
   printf("\r\n  Please Set Year");
-	while (date_s.year == 0xFF)
+	while (RTC_time->year == 0xFF)
 	{
-		date_s.year = USART_Scanf(99) + 2000;
+		RTC_time->year = USART_Scanf(99) + 2000;
 	}
-	printf(":  %d", date_s.year);
+	printf(":  %d", RTC_time->year);
     
 	/* Return the value to store in RTC counter register */
-	return((Tmp_HH*3600 + Tmp_MM*60 + Tmp_SS));
+	//return((RTC_time->hour*3600 + RTC_time->min*60 + RTC_time->sec));
 }
-
-/**
-  * @brief  Adjusts time.
-  * @param  None
-  * @retval None
-  */
-void Time_Adjust(void)
-{
-	/* Wait until last write operation on RTC registers has finished */
-	RTC_WaitForLastTask();
-	/* Change the current time */
-	RTC_SetCounter(Time_Regulate());                // set thoi gian ban dau 
-	/* Wait until last write operation on RTC registers has finished */
-	RTC_WaitForLastTask();
-}
-
-/**
-  * @brief  Displays the current time.
-  * @param  TimeVar: RTC counter value.
-  * @retval None
-  */
-void Time_Display(uint32_t TimeVar)
-{
-	uint32_t THH = 0, TMM = 0, TSS = 0;
-  //uint32_t year_h = 0,year_l = 0;
-	//year_h =(date_s.year /100);
-	//year_l = (date_s.year %100) ;
-    
-	/* Compute  hours */
-	THH = TimeVar / 3600;
-	/* Compute minutes */
-	TMM = (TimeVar % 3600) / 60;
-	/* Compute seconds */
-	TSS = (TimeVar % 3600) % 60;
-  
-  if(THH==24) THH=00;
-  //date_s.day++;}
-
-	printf("Time: %0.2d:%0.2d:%0.2d - ", THH, TMM, TSS);
-  //printf("%0.2d/%0.2d/%0.4d\r\n", date_s.day, date_s.month,date_s.year) ;
-}
-
-void sTime_Display(uint32_t TimeVar, char *timeStr) {
-{
-	uint32_t THH = 0, TMM = 0, TSS = 0;
-  //uint32_t year_h = 0,year_l = 0;
-	//year_h =(date_s.year /100);
-	//year_l = (date_s.year %100) ;
-    
-	/* Compute  hours */
-	THH = TimeVar / 3600;
-	/* Compute minutes */
-	TMM = (TimeVar % 3600) / 60;
-	/* Compute seconds */
-	TSS = (TimeVar % 3600) % 60;
-  
-  if(THH==24) THH=00;
-  //date_s.day++;}
-
-	sprintf(timeStr, "\r\nTime: %3.2d:%0.2d:%0.2d", THH, TMM, TSS);
-  //printf("%0.2d/%0.2d/%0.4d\r\n", date_s.day, date_s.month,date_s.year) ;
-}
-}
-
-/**
-  * @brief  Shows the current time (HH:MM:SS) on the Hyperterminal.
-  * @param  None
-  * @retval None
-  */   
-void Time_Show(void)
-{
-	//printf("\n\r");
-
-	/* Infinite loop */
-	//while (1)
-	{
-		/* If 1s has paased */
-		if (TimeDisplay == 1)
-		{
-			/* Display current time */
-			Time_Display(RTC_GetCounter());
-			TimeDisplay = 0;
-		}
-	}
-}
-
-void Calendar_DateUpdate(void)
-{
-  if (date_s.month == 1 || date_s.month == 3 || date_s.month == 5 || date_s.month == 7 ||
-      date_s.month == 8 || date_s.month == 10 || date_s.month == 12)
-  {
-    if (date_s.day < 31)
-    {
-      date_s.day++;
-    }
-    /* Date structure member: date_s.day = 31 */
-    else
-    {
-      if (date_s.month != 12)
-      {
-        date_s.month++;
-        date_s.day = 1;
-      }
-      /* Date structure member: date_s.day = 31 & date_s.month =12 */
-      else
-      {
-        date_s.month = 1;
-        date_s.day = 1;
-        date_s.year++;
-      }
-    }
-  }
-  else if (date_s.month == 4 || date_s.month == 6 || date_s.month == 9 ||
-           date_s.month == 11)
-  {
-    if (date_s.day < 30)
-    {
-      date_s.day++;
-    }
-    /* Date structure member: date_s.day = 30 */
-    else
-    {
-      date_s.month++;
-      date_s.day = 1;
-    }
-  }
-  else if (date_s.month == 2)
-  {
-    if (date_s.day < 28)
-    {
-      date_s.day++;
-    }
-    else if (date_s.day == 28)
-    {
-      /* Leap year */
-      if (((date_s.year)%4)==0)
-      {
-        date_s.day++;
-      }
-      else
-      {
-        date_s.month++;
-        date_s.day = 1;
-      }
-    }
-    else if (date_s.day == 29)
-    {
-      date_s.month++;
-      date_s.day = 1;
-    }
-  }
-}
-
-/******************* (C) COPYRIGHT 2009 ARMVietNam *****END OF FILE****/
 
