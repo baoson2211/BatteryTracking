@@ -192,6 +192,12 @@ FRESULT scan_files (char* path)
 }
 
 void Remapping (void){
+
+/* CD4052 pin pack BA = 00 */
+  MUX00;
+  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC1, DISABLE);
   CELL.Ch[0]  = ADC1_values[0];
   CELL.Ch[1]  = ADC1_values[1];
   CELL.Ch[2]  = ADC1_values[2];
@@ -200,18 +206,123 @@ void Remapping (void){
   CELL.Ch[5]  = ADC1_values[5];
   CELL.Ch[6]  = ADC1_values[6];
   CELL.Ch[7]  = ADC1_values[7];
-  CELL.Ch[8]  = ADC3_values[8];
-  CELL.Ch[9]  = ADC3_values[9];
-  CELL.Ch[10] = ADC1_values[10];
-  CELL.Ch[11] = ADC1_values[11];
-  CELL.Ch[12] = ADC1_values[12];
-  CELL.Ch[13] = ADC1_values[13];
-  CELL.Ch[14] = ADC1_values[14];
-  CELL.Ch[15] = ADC1_values[15];
-  CELL.Ch[16] = ADC1_values[16];
-  CELL.Ch[17] = ADC1_values[];
-  CELL.Ch[18] = ADC1_values[0];
-  CELL.Ch[19] = ADC1_values[0];
+  
+  CELL.Ch[10] = ADC1_values[8];
+  CELL.Ch[11] = ADC1_values[9];
+  CELL.Ch[12] = ADC1_values[10];
+  CELL.Ch[13] = ADC1_values[11];
+  CELL.Ch[14] = ADC1_values[12];
+  CELL.Ch[15] = ADC1_values[13];
+  
+  CELL.Ch[16] = ADC1_values[14];
+  
+  ADC_SoftwareStartConvCmd(ADC3, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC3, DISABLE);
+  
+  CELL.Ch[8]  = ADC3_values[0];
+  CELL.Ch[9]  = ADC3_values[1];
+  
+  CELL.Ch[17] = ADC3_values[2];
+  
+/* CD4052 pin pack BA = 01 */
+  MUX01;
+  
+  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC1, DISABLE);
+  CELL.Ch[0]  = ADC1_values[0];
+  CELL.Ch[1]  = ADC1_values[1];
+  CELL.Ch[2]  = ADC1_values[2];
+  CELL.Ch[3]  = ADC1_values[3];
+  CELL.Ch[4]  = ADC1_values[4];
+  CELL.Ch[5]  = ADC1_values[5];
+  CELL.Ch[6]  = ADC1_values[6];
+  CELL.Ch[7]  = ADC1_values[7];
+  
+  CELL.Ch[10] = ADC1_values[8];
+  CELL.Ch[11] = ADC1_values[9];
+  CELL.Ch[12] = ADC1_values[10];
+  CELL.Ch[13] = ADC1_values[11];
+  CELL.Ch[14] = ADC1_values[12];
+  CELL.Ch[15] = ADC1_values[13];
+  
+  CELL.Ch[18] = ADC1_values[14];
+  
+  ADC_SoftwareStartConvCmd(ADC3, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC3, DISABLE);
+  
+  CELL.Ch[8]  = ADC3_values[0];
+  CELL.Ch[9]  = ADC3_values[1];
+  
+  CELL.Ch[19] = ADC3_values[2];
+
+/* CD4052 pin pack BA = 10 */
+  MUX10;
+  
+  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC1, DISABLE);
+  CELL.Ch[0]  = ADC1_values[0];
+  CELL.Ch[1]  = ADC1_values[1];
+  CELL.Ch[2]  = ADC1_values[2];
+  CELL.Ch[3]  = ADC1_values[3];
+  CELL.Ch[4]  = ADC1_values[4];
+  CELL.Ch[5]  = ADC1_values[5];
+  CELL.Ch[6]  = ADC1_values[6];
+  CELL.Ch[7]  = ADC1_values[7];
+  
+  CELL.Ch[10] = ADC1_values[8];
+  CELL.Ch[11] = ADC1_values[9];
+  CELL.Ch[12] = ADC1_values[10];
+  CELL.Ch[13] = ADC1_values[11];
+  CELL.Ch[14] = ADC1_values[12];
+  CELL.Ch[15] = ADC1_values[13];
+  
+  CELL.Ch[20] = ADC1_values[14];
+  
+  ADC_SoftwareStartConvCmd(ADC3, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC3, DISABLE);
+  
+  CELL.Ch[8]  = ADC3_values[0];
+  CELL.Ch[9]  = ADC3_values[1];
+  
+  CELL.Ch[21] = ADC3_values[2];
+
+/* CD4052 pin pack BA = 11 */
+  MUX11;
+  
+  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC1, DISABLE);
+  CELL.Ch[0]  = ADC1_values[0];
+  CELL.Ch[1]  = ADC1_values[1];
+  CELL.Ch[2]  = ADC1_values[2];
+  CELL.Ch[3]  = ADC1_values[3];
+  CELL.Ch[4]  = ADC1_values[4];
+  CELL.Ch[5]  = ADC1_values[5];
+  CELL.Ch[6]  = ADC1_values[6];
+  CELL.Ch[7]  = ADC1_values[7];
+  
+  CELL.Ch[10] = ADC1_values[8];
+  CELL.Ch[11] = ADC1_values[9];
+  CELL.Ch[12] = ADC1_values[10];
+  CELL.Ch[13] = ADC1_values[11];
+  CELL.Ch[14] = ADC1_values[12];
+  CELL.Ch[15] = ADC1_values[13];
+  
+  CELL.Ch[22] = ADC1_values[14];
+  
+  ADC_SoftwareStartConvCmd(ADC3, ENABLE);
+  Delay(10);
+  ADC_SoftwareStartConvCmd(ADC3, DISABLE);
+  
+  CELL.Ch[8]  = ADC3_values[0];
+  CELL.Ch[9]  = ADC3_values[1];
+  
+  CELL.Ch[23] = ADC3_values[2];
 }
 
 uint16_t ReadCell(uint8_t i) {
@@ -468,7 +579,7 @@ int main(void)
   //Enable DMA2 Channel transfer
   DMA_Cmd(DMA2_Channel5, ENABLE);
   
-  printf("      TIME      CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21  CH22  CH23  CH24\r\n");
+  printf("      TIME       CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21  CH22  CH23  CH24\r\n");
   
   while (1)
   {
@@ -479,7 +590,16 @@ int main(void)
 #endif    
 #ifdef TEST 
     sTime_Display(RTC_GetCounter(), time);
-    printf("%s",time);  
+    printf("%s",time);
+
+    Remapping();
+    
+    //printf("  %4d", (uint16_t) CELL.Ch[ch]);
+    
+    for(ch = 0; ch < 24; ch++) {
+      printf("  %4d", (uint16_t) CELL.Ch[ch]);
+    }
+/*  -- to be change --
     //Start ADC1 Software Conversion
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
     //wait for DMA complete
@@ -497,6 +617,7 @@ int main(void)
     for(ch = 0; ch < 3; ch++) {
       printf("  %4d", (uint16_t) ADC3_values[ch]);
     }
+*/
 #endif    
     Delay(2000);
   }

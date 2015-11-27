@@ -208,7 +208,7 @@ void sTime_Display(uint32_t TimeVar, char *timeStr) {
   if(THH==24) THH=00;
   //date_s.day++;}
 
-	sprintf(timeStr, "\r\nTime: %0.2d:%0.2d:%0.2d", THH, TMM, TSS);
+	sprintf(timeStr, "\r\nTime: %3.2d:%0.2d:%0.2d", THH, TMM, TSS);
   //printf("%0.2d/%0.2d/%0.4d\r\n", date_s.day, date_s.month,date_s.year) ;
 }
 }
