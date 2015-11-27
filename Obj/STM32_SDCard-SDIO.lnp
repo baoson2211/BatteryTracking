@@ -4,6 +4,7 @@
 ".\obj\main.o"
 ".\obj\rtc.o"
 ".\obj\adc.o"
+".\obj\gpio.o"
 ".\obj\misc.o"
 ".\obj\stm32f10x_gpio.o"
 ".\obj\stm32f10x_rcc.o"

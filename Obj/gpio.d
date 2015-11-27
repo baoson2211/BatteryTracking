@@ -1,0 +1,14 @@
+.\obj\gpio.o: user\gpio.c
+.\obj\gpio.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\obj\gpio.o: user\gpio.h
+.\obj\gpio.o: user\stm32f10x.h
+.\obj\gpio.o: user\core_cm3.h
+.\obj\gpio.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\gpio.o: user\system_stm32f10x.h
+.\obj\gpio.o: user\stm32f10x_conf.h
+.\obj\gpio.o: .\FWlib\inc\stm32f10x_dma.h
+.\obj\gpio.o: .\user\stm32f10x.h
+.\obj\gpio.o: .\FWlib\inc\stm32f10x_gpio.h
+.\obj\gpio.o: .\FWlib\inc\stm32f10x_rcc.h
+.\obj\gpio.o: .\FWlib\inc\stm32f10x_sdio.h
+.\obj\gpio.o: .\FWlib\inc\misc.h
