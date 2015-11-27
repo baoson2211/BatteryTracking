@@ -44,13 +44,13 @@ uint8_t NbrOfDataToRead1 = RxBufferSize1;
 __IO uint32_t TimingDelay;
 
 extern __IO uint32_t TimeDisplay;
-extern volatile uint16_t ADC_values1[ADC1_ARRAYSIZE];
-extern volatile uint16_t ADC_values3[ADC3_ARRAYSIZE];
-extern volatile uint32_t status1, status3;
+extern volatile uint16_t ADC1_values[ADC1_ARRAYSIZE];
+extern volatile uint16_t ADC3_values[ADC3_ARRAYSIZE];
+extern volatile uint32_t statusADC1, statusADC3;
 
 /* Private define ------------------------------------------------------------*/
 #define BlockSize            512 /* Block Size in Bytes */
-//#define BlockSize            128 /* Block Size in Bytes */
+//#define BlockSize          128 /* Block Size in Bytes */
 #define BufferWordsSize      (BlockSize >> 2)
 
 #define NumberOfBlocks       2  /* For Multi Blocks operation (Read/Write) */
@@ -189,6 +189,29 @@ FRESULT scan_files (char* path)
 	}
 
 	return res;
+}
+
+void Remapping (void){
+  CELL.Ch[0]  = ADC1_values[0];
+  CELL.Ch[1]  = ADC1_values[1];
+  CELL.Ch[2]  = ADC1_values[2];
+  CELL.Ch[3]  = ADC1_values[3];
+  CELL.Ch[4]  = ADC1_values[4];
+  CELL.Ch[5]  = ADC1_values[5];
+  CELL.Ch[6]  = ADC1_values[6];
+  CELL.Ch[7]  = ADC1_values[7];
+  CELL.Ch[8]  = ADC3_values[8];
+  CELL.Ch[9]  = ADC3_values[9];
+  CELL.Ch[10] = ADC1_values[10];
+  CELL.Ch[11] = ADC1_values[11];
+  CELL.Ch[12] = ADC1_values[12];
+  CELL.Ch[13] = ADC1_values[13];
+  CELL.Ch[14] = ADC1_values[14];
+  CELL.Ch[15] = ADC1_values[15];
+  CELL.Ch[16] = ADC1_values[16];
+  CELL.Ch[17] = ADC1_values[];
+  CELL.Ch[18] = ADC1_values[0];
+  CELL.Ch[19] = ADC1_values[0];
 }
 
 uint16_t ReadCell(uint8_t i) {
@@ -463,7 +486,7 @@ int main(void)
     Delay(10);
     ADC_SoftwareStartConvCmd(ADC1, DISABLE);
     for(ch = 0; ch < 15; ch++) {
-      printf("  %4d", (uint16_t) ADC_values1[ch]);
+      printf("  %4d", (uint16_t) ADC1_values[ch]);
     }
     
     //Start ADC3 Software Conversion
@@ -472,35 +495,8 @@ int main(void)
     Delay(10);
     ADC_SoftwareStartConvCmd(ADC3, DISABLE);
     for(ch = 0; ch < 3; ch++) {
-      printf("  %4d", (uint16_t) ADC_values3[ch]);
+      printf("  %4d", (uint16_t) ADC3_values[ch]);
     }
-
-//    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-//    ADC_SoftwareStartConvCmd(ADC3, ENABLE);
-//    printf("  %4d", ReadCell( 0));
-//    printf("  %4d", ReadCell( 1));
-//    printf("  %4d", ReadCell( 2));
-//    printf("  %4d", ReadCell( 3));
-//    printf("  %4d", ReadCell( 4));
-//    printf("  %4d", ReadCell( 5));
-//    printf("  %4d", ReadCell( 6));
-//    printf("  %4d", ReadCell( 7));
-//    printf("  %4d", ReadCell( 8));
-//    printf("  %4d", ReadCell( 9));
-//    printf("  %4d", ReadCell(10));
-//    printf("  %4d", ReadCell(11));
-//    printf("  %4d", ReadCell(12));
-//    printf("  %4d", ReadCell(13));
-//    printf("  %4d", ReadCell(14));
-//    printf("  %4d", ReadCell(15)); 
-//    printf("  %4d", ReadCell(16));
-//    printf("  %4d", ReadCell(17));
-//    printf("  %4d", ReadCell(18));
-//    printf("  %4d", ReadCell(19));
-//    printf("  %4d", ReadCell(20));
-//    ADC_SoftwareStartConvCmd(ADC1, DISABLE);
-//    ADC_SoftwareStartConvCmd(ADC3, DISABLE);
-    
 #endif    
     Delay(2000);
   }

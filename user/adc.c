@@ -69,10 +69,10 @@ DMA_InitTypeDef  DMA_InitStructure;
 u16 adc_raw_val = 0;
 u16 potentionmeter_val = 0;
 
-volatile uint16_t ADC_values1[ADC1_ARRAYSIZE];
-volatile uint16_t ADC_values3[ADC3_ARRAYSIZE];
-volatile uint32_t status1 = 0;  
-volatile uint32_t status3 = 0;
+volatile uint16_t ADC1_values[ADC1_ARRAYSIZE];
+volatile uint16_t ADC3_values[ADC3_ARRAYSIZE];
+volatile uint32_t statusADC1 = 0;  
+volatile uint32_t statusADC3 = 0;
 /*
 *************************************************************************************************************************************
 *							  								LOCAL FUNCTIONS															*

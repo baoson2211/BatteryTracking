@@ -108,8 +108,6 @@ void Calendar_DateUpdate(void);
 */
 
 
-
-
 #ifdef __cplusplus
 }
 #endif

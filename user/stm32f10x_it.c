@@ -40,7 +40,7 @@
 /* Private variables ---------------------------------------------------------*/
 extern __IO uint32_t TimeDisplay;
 extern __IO uint32_t TimingDelay;
-extern volatile uint32_t status1, status3;
+extern volatile uint32_t statusADC1, statusADC3;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -188,7 +188,7 @@ void DMA1_Channel1_IRQHandler(void)
   //Test on DMA1 Channel1 Transfer Complete interrupt
   if(DMA_GetITStatus(DMA1_IT_TC1))
   { 
-//	  status1=1;    
+//	  statusADC1=1;    
 //   //Clear DMA1 interrupt pending bits
     DMA_ClearITPendingBit(DMA1_IT_GL1);
   }
@@ -202,7 +202,7 @@ void DMA2_Channel4_5_IRQHandler(void)
   //Test on DMA2 Channel5 Transfer Complete interrupt
   if(DMA_GetITStatus(DMA2_IT_TC5))
   {
-//	  status3=1;    
+//	  statusADC3=1;    
 //   //Clear DMA2 interrupt pending bits
     DMA_ClearITPendingBit(DMA2_IT_GL5);
   }
