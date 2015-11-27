@@ -4,6 +4,7 @@
 #include "stdio.h"
 #include "adc.h"
 #include "rtc.h"
+#include "gpio.h"
 #include "stm32f10x_usart.h"
 
 #include <stdlib.h>
@@ -444,7 +445,7 @@ int main(void)
   //Enable DMA2 Channel transfer
   DMA_Cmd(DMA2_Channel5, ENABLE);
   
-  printf("      TIME      CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21\r\n");
+  printf("      TIME      CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21  CH22  CH23  CH24\r\n");
   
   while (1)
   {
@@ -550,7 +551,6 @@ void Serial_Init(void)
 
   /* Enable USART1 */
   USART_Cmd(USART1, ENABLE);
-  
 }
 
 
