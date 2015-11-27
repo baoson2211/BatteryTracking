@@ -63,6 +63,7 @@
 #define MUX11         { GPIO_SetBits  (GPIOB, GPIO_Pin_7 ); GPIO_SetBits  (GPIOB, GPIO_Pin_3 ); }
 
 #define RELAY_FLIP    { GPIO_SetBits  (GPIOB, GPIO_Pin_7 ) ;}
+#define RELAY_FLOP    { GPIO_ResetBits(GPIOB, GPIO_Pin_7 ) ;}
 
 /*
 *************************************************************************************************************************************
