@@ -46,7 +46,7 @@ __IO uint32_t TimingDelay;
 extern __IO uint32_t TimeDisplay;
 extern volatile uint16_t ADC1_values[ADC1_ARRAYSIZE];
 extern volatile uint16_t ADC3_values[ADC3_ARRAYSIZE];
-extern volatile uint32_t statusADC1, statusADC3;
+extern volatile uint8_t  statusADC1, statusADC3;
 
 /* Private define ------------------------------------------------------------*/
 #define BlockSize            512 /* Block Size in Bytes */
@@ -59,6 +59,34 @@ extern volatile uint32_t statusADC1, statusADC3;
 #define TEST                 1
 #define RELEASE              1
 
+/* Array resistance voltage divider:    R1/1 |  R2/10 | scale * 10
+ * 
+ */
+uint32_t RESISTANCE[24][3]    =    { {   22  ,  1000  ,    10   },  /* CH01 */
+                                     {   47  ,   100  ,    10   },  /* CH02 */
+                                     {  100  ,   100  ,    10   },  /* CH03 */
+                                     {  180  ,   100  ,    10   },  /* CH04 */
+                                     {  270  ,   100  ,    10   },  /* CH05 */
+                                     {  330  ,   100  ,    10   },  /* CH06 */
+                                     {  390  ,   100  ,    10   },  /* CH07 */
+                                     {  470  ,   100  ,    10   },  /* CH08 */
+                                     {  820  ,   150  ,    10   },  /* CH09 */
+                                     {  560  ,   100  ,    10   },  /* CH10 */
+                                     {  680  ,   100  ,    10   },  /* CH11 */
+                                     {  100  ,   120  ,    10   },  /* CH12 */
+                                     {  820  ,   100  ,    10   },  /* CH13 */
+                                     {  560  ,    68  ,    10   },  /* CH14 */
+                                     {  470  ,    47  ,    10   },  /* CH15 */
+                                     { 1000  ,   100  ,    10   },  /* CH16 */
+                                     {  470  ,    47  ,    10   },  /* CH17 */
+                                     { 1200  ,   100  ,    10   },  /* CH18 */
+                                     { 1200  ,   100  ,    10   },  /* CH19 */
+                                     {  910  ,    51  ,    10   },  /* CH20 */
+                                     {  680  ,    47  ,    10   },  /* CH21 */
+                                     {  470  ,    33  ,    10   },  /* CH22 */
+                                     {  820  ,    51  ,    10   },  /* CH23 */
+                                     {  820  ,    47  ,    10   }   /* CH24 */ };
+
 enum CLI{
       Create_file = 0x31,
       Write_file  = 0x32,
@@ -67,36 +95,11 @@ enum CLI{
 
 struct _CELL {
       uint16_t Ch[24];  
-      uint16_t Tmp;
+      uint16_t Value[24];
       uint16_t Voltage;
     } CELL;
 
 /* Private macro -------------------------------------------------------------*/
-
-#define CELL01 { CELL.Ch[0]  = ADC_Read(ADC1, ADC_Channel_8) ; }
-#define CELL02 { CELL.Ch[1]  = ADC_Read(ADC1, ADC_Channel_14); }
-#define CELL03 { CELL.Ch[2]  = ADC_Read(ADC1, ADC_Channel_6) ; }
-#define CELL04 { CELL.Ch[3]  = ADC_Read(ADC1, ADC_Channel_4) ; }
-#define CELL05 { CELL.Ch[4]  = ADC_Read(ADC1, ADC_Channel_2) ; }
-#define CELL06 { CELL.Ch[5]  = ADC_Read(ADC1, ADC_Channel_0) ; }
-#define CELL07 { CELL.Ch[6]  = ADC_Read(ADC1, ADC_Channel_12); }
-#define CELL08 { CELL.Ch[7]  = ADC_Read(ADC1, ADC_Channel_10); }
-#define CELL09 { CELL.Ch[8]  = ADC_Read(ADC3, ADC_Channel_5) ; }
-#define CELL10 { CELL.Ch[9]  = ADC_Read(ADC3, ADC_Channel_7) ; }
-#define CELL11 { CELL.Ch[10] = ADC_Read(ADC1, ADC_Channel_15); }
-#define CELL12 { CELL.Ch[11] = ADC_Read(ADC1, ADC_Channel_7) ; }
-#define CELL13 { CELL.Ch[12] = ADC_Read(ADC1, ADC_Channel_5) ; }
-#define CELL14 { CELL.Ch[13] = ADC_Read(ADC1, ADC_Channel_3) ; }
-#define CELL15 { CELL.Ch[14] = ADC_Read(ADC1, ADC_Channel_1) ; }
-#define CELL16 { CELL.Ch[15] = ADC_Read(ADC1, ADC_Channel_13); }
-#define CELL17 { CELL.Ch[16] = ADC_Read(ADC1, ADC_Channel_11); }
-#define CELL18 { CELL.Ch[17] = ADC_Read(ADC3, ADC_Channel_8) ; }
-#define CELL19 { CELL.Ch[18] = ADC_Read(ADC1, ADC_Channel_11); }
-#define CELL20 { CELL.Ch[19] = ADC_Read(ADC3, ADC_Channel_8) ; }
-#define CELL21 { CELL.Ch[20] = ADC_Read(ADC1, ADC_Channel_11); }
-#define CELL22 { CELL.Ch[21] = ADC_Read(ADC3, ADC_Channel_8) ; }
-#define CELL23 { CELL.Ch[22] = ADC_Read(ADC1, ADC_Channel_11); }
-#define CELL24 { CELL.Ch[23] = ADC_Read(ADC3, ADC_Channel_8) ; }
 
 /* Private variables ---------------------------------------------------------*/
 SD_CardInfo SDCardInfo;
@@ -198,30 +201,12 @@ void Remapping (void){
   ADC_SoftwareStartConvCmd(ADC1, ENABLE);
   Delay(10);
   ADC_SoftwareStartConvCmd(ADC1, DISABLE);
-  CELL.Ch[0]  = ADC1_values[0];
-  CELL.Ch[1]  = ADC1_values[1];
-  CELL.Ch[2]  = ADC1_values[2];
-  CELL.Ch[3]  = ADC1_values[3];
-  CELL.Ch[4]  = ADC1_values[4];
-  CELL.Ch[5]  = ADC1_values[5];
-  CELL.Ch[6]  = ADC1_values[6];
-  CELL.Ch[7]  = ADC1_values[7];
-  
-  CELL.Ch[10] = ADC1_values[8];
-  CELL.Ch[11] = ADC1_values[9];
-  CELL.Ch[12] = ADC1_values[10];
-  CELL.Ch[13] = ADC1_values[11];
-  CELL.Ch[14] = ADC1_values[12];
-  CELL.Ch[15] = ADC1_values[13];
-  
+   
   CELL.Ch[16] = ADC1_values[14];
   
   ADC_SoftwareStartConvCmd(ADC3, ENABLE);
   Delay(10);
   ADC_SoftwareStartConvCmd(ADC3, DISABLE);
-  
-  CELL.Ch[8]  = ADC3_values[0];
-  CELL.Ch[9]  = ADC3_values[1];
   
   CELL.Ch[17] = ADC3_values[2];
   
@@ -231,31 +216,13 @@ void Remapping (void){
   ADC_SoftwareStartConvCmd(ADC1, ENABLE);
   Delay(10);
   ADC_SoftwareStartConvCmd(ADC1, DISABLE);
-  CELL.Ch[0]  = ADC1_values[0];
-  CELL.Ch[1]  = ADC1_values[1];
-  CELL.Ch[2]  = ADC1_values[2];
-  CELL.Ch[3]  = ADC1_values[3];
-  CELL.Ch[4]  = ADC1_values[4];
-  CELL.Ch[5]  = ADC1_values[5];
-  CELL.Ch[6]  = ADC1_values[6];
-  CELL.Ch[7]  = ADC1_values[7];
-  
-  CELL.Ch[10] = ADC1_values[8];
-  CELL.Ch[11] = ADC1_values[9];
-  CELL.Ch[12] = ADC1_values[10];
-  CELL.Ch[13] = ADC1_values[11];
-  CELL.Ch[14] = ADC1_values[12];
-  CELL.Ch[15] = ADC1_values[13];
-  
+
   CELL.Ch[18] = ADC1_values[14];
   
   ADC_SoftwareStartConvCmd(ADC3, ENABLE);
   Delay(10);
   ADC_SoftwareStartConvCmd(ADC3, DISABLE);
-  
-  CELL.Ch[8]  = ADC3_values[0];
-  CELL.Ch[9]  = ADC3_values[1];
-  
+    
   CELL.Ch[19] = ADC3_values[2];
 
 /* CD4052 pin pack BA = 10 */
@@ -264,31 +231,13 @@ void Remapping (void){
   ADC_SoftwareStartConvCmd(ADC1, ENABLE);
   Delay(10);
   ADC_SoftwareStartConvCmd(ADC1, DISABLE);
-  CELL.Ch[0]  = ADC1_values[0];
-  CELL.Ch[1]  = ADC1_values[1];
-  CELL.Ch[2]  = ADC1_values[2];
-  CELL.Ch[3]  = ADC1_values[3];
-  CELL.Ch[4]  = ADC1_values[4];
-  CELL.Ch[5]  = ADC1_values[5];
-  CELL.Ch[6]  = ADC1_values[6];
-  CELL.Ch[7]  = ADC1_values[7];
-  
-  CELL.Ch[10] = ADC1_values[8];
-  CELL.Ch[11] = ADC1_values[9];
-  CELL.Ch[12] = ADC1_values[10];
-  CELL.Ch[13] = ADC1_values[11];
-  CELL.Ch[14] = ADC1_values[12];
-  CELL.Ch[15] = ADC1_values[13];
-  
+
   CELL.Ch[20] = ADC1_values[14];
   
   ADC_SoftwareStartConvCmd(ADC3, ENABLE);
   Delay(10);
   ADC_SoftwareStartConvCmd(ADC3, DISABLE);
-  
-  CELL.Ch[8]  = ADC3_values[0];
-  CELL.Ch[9]  = ADC3_values[1];
-  
+    
   CELL.Ch[21] = ADC3_values[2];
 
 /* CD4052 pin pack BA = 11 */
@@ -297,6 +246,7 @@ void Remapping (void){
   ADC_SoftwareStartConvCmd(ADC1, ENABLE);
   Delay(10);
   ADC_SoftwareStartConvCmd(ADC1, DISABLE);
+  
   CELL.Ch[0]  = ADC1_values[0];
   CELL.Ch[1]  = ADC1_values[1];
   CELL.Ch[2]  = ADC1_values[2];
@@ -325,41 +275,18 @@ void Remapping (void){
   CELL.Ch[23] = ADC3_values[2];
 }
 
-uint16_t ReadCell(uint8_t i) {
-  switch (i) {
-    case 0:
-      return ADC_Read(ADC1, ADC_Channel_8) ; Delay(50); break;
-    case 1:
-      return ADC_Read(ADC1, ADC_Channel_14); Delay(50); break;
-    case 2:
-      return ADC_Read(ADC1, ADC_Channel_6) ; Delay(50); break;
-    case 3:  
-      return ADC_Read(ADC1, ADC_Channel_4) ; Delay(50); break;
-    case 4:
-      return ADC_Read(ADC1, ADC_Channel_2) ; Delay(50); break;
-    case 5:
-      return ADC_Read(ADC1, ADC_Channel_0) ; Delay(50); break;
-    case 6:
-      return ADC_Read(ADC1, ADC_Channel_12); Delay(50); break;
-    case 7:  
-      return ADC_Read(ADC1, ADC_Channel_10); Delay(50); break;
-    case 8:  
-      return ADC_Read(ADC3, ADC_Channel_5) ; Delay(50); break;
-    case 9:
-      return ADC_Read(ADC3, ADC_Channel_7) ; Delay(50); break;
-    case 10:
-      return ADC_Read(ADC1, ADC_Channel_15); Delay(50); break;
-    case 11:
-      return ADC_Read(ADC1, ADC_Channel_7) ; Delay(50); break;
-    case 12:
-      return ADC_Read(ADC1, ADC_Channel_5) ; Delay(50); break;
-    case 13:
-      return ADC_Read(ADC1, ADC_Channel_3) ; Delay(50); break;
-    case 14:
-      return ADC_Read(ADC1, ADC_Channel_1) ; Delay(50); break;
-    case 15:
-      return ADC_Read(ADC1, ADC_Channel_13); Delay(50); break;
-    default:                                 break; 
+void Converting(void) {
+  uint8_t ch;
+  for ( ch = 0; ch < 24 ; ch++ ){
+    CELL.Ch[ch] = (CELL.Ch[ch] * ADC_VREF * (RESISTANCE[ch][0]+ RESISTANCE[ch][1])) / (ADC_12BIT_FACTOR * RESISTANCE[ch][1]);
+  }
+}
+
+void ValueCell(void) {
+  uint8_t ch;
+  CELL.Value[0] = CELL.Ch[0];
+  for ( ch = 1; ch < 24; ch++ ) {
+    CELL.Value[ch] = CELL.Ch[ch] - CELL.Ch[ch-1];
   }
 }
 
@@ -368,7 +295,7 @@ void CreateFile() {
   FILINFO finfo;
   DIR dirs;
   
-  char heading[205];
+  char heading[162];
     
   disk_initialize(0);  
   
@@ -376,7 +303,7 @@ void CreateFile() {
  
   if(f_open(&fdst, "log.txt", FA_CREATE_NEW | FA_WRITE)==FR_OK ) {
     bw=1;
-    sprintf(heading,"      TIME         CH01     CH02     CH03     CH04     CH05     CH06     CH07     CH08     CH09     CH10     CH11     CH12     CH13     CH14     CH15     CH16     CH17     CH18     CH19     CH20     CH21\r\n");
+    sprintf(heading,"      TIME       CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21  CH22  CH23  CH24\r\n");
     f_write(&fdst, heading, sizeof(heading), &bw);
     f_close(&fdst);
     printf("\n\rFile created !\n\r");
@@ -391,8 +318,8 @@ void WriteFile(void)
   DIR dirs;
   
   uint8_t ch;
-  char time[16];
-  char string[9];
+  char time[17];
+  char string[6];
   
   disk_initialize(0);
     
@@ -402,16 +329,17 @@ void WriteFile(void)
     bw=1;
      
     //print averages
-    f_lseek(&fdst, fdst.fsize);
-    sTime_Display(RTC_GetCounter(), time);
-    f_write(&fdst, time, sizeof(time), &bw);
-    f_sync(&fdst);
+    f_lseek(&fdst, fdst.fsize); 
+    //sTime_Display(RTC_GetCounter(), time); 
+    f_write(&fdst, time, sizeof(time), &bw); 
+    f_sync(&fdst); 
       
     //f_lseek(&fdst, fdst.fsize);
-    for(ch = 0; ch < 16; ch++){ 
-      sprintf(string,"     %4d", ReadCell(ch)); 
-      f_write(&fdst, string, sizeof(string), &bw);
-      f_sync(&fdst);
+    for(ch = 0; ch < 24; ch++){ 
+      f_lseek(&fdst, fdst.fsize); 
+      sprintf(string,"  %4d", CELL.Ch[ch]);  
+      f_write(&fdst, string, sizeof(string), &bw); 
+      f_sync(&fdst); 
     }
     f_close(&fdst);
   }
@@ -474,6 +402,7 @@ void ReadFile(void)
 *******************************************************************************/
 int main(void)
 {
+  RTC_t RTC_Time;
   char time[16];
   uint8_t ch = 0;
 #ifdef DEBUG
@@ -539,8 +468,14 @@ int main(void)
 		printf("\r\n RTC configured....");
 
 		/* Adjust time by values entred by the user on the hyperterminal */
-		Time_Adjust();
-
+		//RTC_WaitForLastTask();
+    
+    Time_Regulate(&RTC_Time); 
+    
+    rtc_settime(&RTC_Time);                // set thoi gian ban dau 
+    /* Wait until last write operation on RTC registers has finished */
+    //RTC_WaitForLastTask();
+    
 		BKP_WriteBackupRegister(BKP_DR1, 0xA5A5);
 	}
 	else
@@ -579,27 +514,30 @@ int main(void)
   //Enable DMA2 Channel transfer
   DMA_Cmd(DMA2_Channel5, ENABLE);
   
+  rtc_gettime(&RTC_Time);
+  printf("%02d-%02d-%02d\n\r",RTC_Time.year,RTC_Time.month,RTC_Time.mday);
   printf("      TIME       CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21  CH22  CH23  CH24\r\n");
   
   while (1)
   {
-    
+    Remapping();
+    Converting();
+    ValueCell();
+    //printf("running \r\n");
 #ifndef RELEASE
     WriteFile();
-    printf("running \r\n"); 
+    //printf(".");
 #endif    
 #ifdef TEST 
-    sTime_Display(RTC_GetCounter(), time);
-    printf("%s",time);
-
-    Remapping();
-    
-    //printf("  %4d", (uint16_t) CELL.Ch[ch]);
+    //sTime_Display(RTC_GetCounter(), time);
+    rtc_gettime(&RTC_Time);
+    printf("\r\nTime: %3.2d:%0.2d:%0.2d",RTC_Time.hour,RTC_Time.min,RTC_Time.sec);
     
     for(ch = 0; ch < 24; ch++) {
+      //printf("  %4d", (uint16_t) CELL.Value[ch]);
       printf("  %4d", (uint16_t) CELL.Ch[ch]);
     }
-/*  -- to be change --
+/*  -- to be changed --
     //Start ADC1 Software Conversion
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
     //wait for DMA complete
@@ -619,7 +557,7 @@ int main(void)
     }
 */
 #endif    
-    Delay(2000);
+    Delay(10000);
   }
 }
 
@@ -756,53 +694,6 @@ int fputc(int ch, FILE *f)
   }
 
   return ch;
-}
-
-/**
-  * @brief  Configures the RTC.
-  * @param  None
-  * @retval None
-  */
-void RTC_Configuration(void)
-{
-	/* Enable PWR and BKP clocks */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
-
-	/* Allow access to BKP Domain */
-	PWR_BackupAccessCmd(ENABLE);
-
-	/* Reset Backup Domain */
-	BKP_DeInit();
-
-	/* Enable LSE */
-	RCC_LSEConfig(RCC_LSE_ON);
-	/* Wait till LSE is ready */
-	while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET)
-	{}
-
-	/* Select LSE as RTC Clock Source */
-	RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
-
-	/* Enable RTC Clock */
-	RCC_RTCCLKCmd(ENABLE);
-
-	/* Wait for RTC registers synchronization */
-	RTC_WaitForSynchro();
-
-	/* Wait until last write operation on RTC registers has finished */
-	RTC_WaitForLastTask();
-
-	/* Enable the RTC Second */
-	RTC_ITConfig(RTC_IT_SEC, ENABLE);
-
-	/* Wait until last write operation on RTC registers has finished */
-	RTC_WaitForLastTask();
-
-	/* Set RTC prescaler: set RTC period to 1sec */
-	RTC_SetPrescaler(32767); /* RTC period = RTCCLK/RTC_PR = (32.768 KHz)/(32767+1) */
-
-	/* Wait until last write operation on RTC registers has finished */
-	RTC_WaitForLastTask();
 }
 
 
