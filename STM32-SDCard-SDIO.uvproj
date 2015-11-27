@@ -423,6 +423,11 @@
               <FileType>1</FileType>
               <FilePath>.\user\adc.c</FilePath>
             </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\gpio.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

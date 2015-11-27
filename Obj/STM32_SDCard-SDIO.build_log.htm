@@ -11,63 +11,56 @@ Rebuild target 'STM32-SDCard-SDIO'
 compiling stm32f10x_it.c...
 compiling sdcard.c...
 compiling main.c...
-user\gpio.h(78): warning:  #1-D: last line of file ends without a newline
-  void GPIOInit(void);
-user\main.c(197): warning:  #111-D: statement is unreachable
+user\main.c(331): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_8) ; Delay(50); break;
-user\main.c(199): warning:  #111-D: statement is unreachable
+user\main.c(333): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_14); Delay(50); break;
-user\main.c(201): warning:  #111-D: statement is unreachable
+user\main.c(335): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_6) ; Delay(50); break;
-user\main.c(203): warning:  #111-D: statement is unreachable
+user\main.c(337): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_4) ; Delay(50); break;
-user\main.c(205): warning:  #111-D: statement is unreachable
+user\main.c(339): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_2) ; Delay(50); break;
-user\main.c(207): warning:  #111-D: statement is unreachable
+user\main.c(341): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_0) ; Delay(50); break;
-user\main.c(209): warning:  #111-D: statement is unreachable
+user\main.c(343): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_12); Delay(50); break;
-user\main.c(211): warning:  #111-D: statement is unreachable
+user\main.c(345): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_10); Delay(50); break;
-user\main.c(213): warning:  #111-D: statement is unreachable
+user\main.c(347): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC3, ADC_Channel_5) ; Delay(50); break;
-user\main.c(215): warning:  #111-D: statement is unreachable
+user\main.c(349): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC3, ADC_Channel_7) ; Delay(50); break;
-user\main.c(217): warning:  #111-D: statement is unreachable
+user\main.c(351): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_15); Delay(50); break;
-user\main.c(219): warning:  #111-D: statement is unreachable
+user\main.c(353): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_7) ; Delay(50); break;
-user\main.c(221): warning:  #111-D: statement is unreachable
+user\main.c(355): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_5) ; Delay(50); break;
-user\main.c(223): warning:  #111-D: statement is unreachable
+user\main.c(357): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_3) ; Delay(50); break;
-user\main.c(225): warning:  #111-D: statement is unreachable
+user\main.c(359): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_1) ; Delay(50); break;
-user\main.c(227): warning:  #111-D: statement is unreachable
+user\main.c(361): warning:  #111-D: statement is unreachable
         return ADC_Read(ADC1, ADC_Channel_13); Delay(50); break;
-user\main.c(230): warning:  #940-D: missing return statement at end of non-void function "ReadCell"
+user\main.c(364): warning:  #940-D: missing return statement at end of non-void function "ReadCell"
   }
-user\main.c(233): warning:  #177-D: variable "res" was declared but never referenced
+user\main.c(367): warning:  #177-D: variable "res" was declared but never referenced
     FRESULT res;
-user\main.c(234): warning:  #177-D: variable "finfo" was declared but never referenced
+user\main.c(368): warning:  #177-D: variable "finfo" was declared but never referenced
     FILINFO finfo;
-user\main.c(235): warning:  #177-D: variable "dirs" was declared but never referenced
+user\main.c(369): warning:  #177-D: variable "dirs" was declared but never referenced
     DIR dirs;
-user\main.c(255): warning:  #177-D: variable "res" was declared but never referenced
+user\main.c(389): warning:  #177-D: variable "res" was declared but never referenced
     FRESULT res;
-user\main.c(256): warning:  #177-D: variable "finfo" was declared but never referenced
+user\main.c(390): warning:  #177-D: variable "finfo" was declared but never referenced
     FILINFO finfo;
-user\main.c(257): warning:  #177-D: variable "dirs" was declared but never referenced
+user\main.c(391): warning:  #177-D: variable "dirs" was declared but never referenced
     DIR dirs;
-user\main.c: 24 warnings, 0 errors
+user\main.c: 23 warnings, 0 errors
 compiling rtc.c...
 compiling adc.c...
 compiling gpio.c...
-user\gpio.h(78): warning:  #1-D: last line of file ends without a newline
-  void GPIOInit(void);
-user\gpio.c(114): warning:  #1-D: last line of file ends without a newline
-  }
-user\gpio.c: 2 warnings, 0 errors
 compiling misc.c...
 compiling stm32f10x_gpio.c...
 compiling stm32f10x_rcc.c...
@@ -84,6 +77,24 @@ compiling core_cm3.c...
 compiling ff.c...
 compiling diskio.c...
 linking...
-Program Size: Code=27552 RO-data=800 RW-data=172 ZI-data=5708  
+Program Size: Code=28196 RO-data=800 RW-data=172 ZI-data=5708  
 FromELF: creating hex file...
-".\Obj\STM32_SDCard-SDIO.axf" - 0 Error(s), 26 Warning(s).
+".\Obj\STM32_SDCard-SDIO.axf" - 0 Error(s), 23 Warning(s).
+ 2 warnings, 0 errors
+compiling misc.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_usart.c...
+compiling stm32f10x_sdio.c...
+compiling stm32f10x_dma.c...
+compiling stm32f10x_rtc.c...
+compiling stm32f10x_bkp.c...
+compiling stm32f10x_pwr.c...
+compiling stm32f10x_adc.c...
+assembling startup_stm32f10x_hd.s...
+compiling system_stm32f10x.c...
+compiling core_cm3.c...
+compiling ff.c...
+compiling diskio.c...
+".\Obj\STM32_SDCard-SDIO.axf" - 2 Error(s), 26 Warning(s).
+Target not created
