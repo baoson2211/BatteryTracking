@@ -483,6 +483,11 @@
               <FileType>1</FileType>
               <FilePath>.\FWlib\SRC\stm32f10x_adc.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f10x_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FWlib\SRC\stm32f10x_exti.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

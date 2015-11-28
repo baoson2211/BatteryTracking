@@ -12,3 +12,4 @@
 .\obj\gpio.o: .\FWlib\inc\stm32f10x_rcc.h
 .\obj\gpio.o: .\FWlib\inc\stm32f10x_sdio.h
 .\obj\gpio.o: .\FWlib\inc\misc.h
+.\obj\gpio.o: .\FWlib\inc\stm32f10x_exti.h

@@ -15,6 +15,7 @@
 ".\obj\stm32f10x_bkp.o"
 ".\obj\stm32f10x_pwr.o"
 ".\obj\stm32f10x_adc.o"
+".\obj\stm32f10x_exti.o"
 ".\obj\startup_stm32f10x_hd.o"
 ".\obj\system_stm32f10x.o"
 ".\obj\core_cm3.o"

@@ -11,6 +11,7 @@
 .\obj\stm32f10x_it.o: .\FWlib\inc\stm32f10x_rcc.h
 .\obj\stm32f10x_it.o: .\FWlib\inc\stm32f10x_sdio.h
 .\obj\stm32f10x_it.o: .\FWlib\inc\misc.h
+.\obj\stm32f10x_it.o: .\FWlib\inc\stm32f10x_exti.h
 .\obj\stm32f10x_it.o: .\FWlib\inc\stm32f10x_rtc.h
 .\obj\stm32f10x_it.o: user\sdcard.h
 .\obj\stm32f10x_it.o: user\main.h
@@ -19,3 +20,4 @@
 .\obj\stm32f10x_it.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\stm32f10x_it.o: .\FWlib\inc\stm32f10x_pwr.h
 .\obj\stm32f10x_it.o: .\FWlib\inc\stm32f10x_usart.h
+.\obj\stm32f10x_it.o: user\gpio.h
