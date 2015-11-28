@@ -62,33 +62,33 @@ extern volatile uint8_t  statusADC1, statusADC3;
 /* Array resistance voltage divider:    R1/1 |  R2/10 | scale * 10
  * 
  */
-uint32_t RESISTANCE[24][3]    =    { {   22  ,  1000  ,    10   },  /* CH01 */
-                                     {   47  ,   100  ,    10   },  /* CH02 */
-                                     {  100  ,   100  ,    10   },  /* CH03 */
-                                     {  180  ,   100  ,    10   },  /* CH04 */
-                                     {  270  ,   100  ,    10   },  /* CH05 */
-                                     {  330  ,   100  ,    10   },  /* CH06 */
-                                     {  390  ,   100  ,    10   },  /* CH07 */
-                                     {  470  ,   100  ,    10   },  /* CH08 */
-                                     {  820  ,   150  ,    10   },  /* CH09 */
-                                     {  560  ,   100  ,    10   },  /* CH10 */
-                                     {  680  ,   100  ,    10   },  /* CH11 */
-                                     {  100  ,   120  ,    10   },  /* CH12 */
-                                     {  820  ,   100  ,    10   },  /* CH13 */
-                                     {  560  ,    68  ,    10   },  /* CH14 */
-                                     {  470  ,    47  ,    10   },  /* CH15 */
-                                     { 1000  ,   100  ,    10   },  /* CH16 */
-                                     {  470  ,    47  ,    10   },  /* CH17 */
-                                     { 1200  ,   100  ,    10   },  /* CH18 */
-                                     { 1200  ,   100  ,    10   },  /* CH19 */
-                                     {  910  ,    51  ,    10   },  /* CH20 */
-                                     {  680  ,    47  ,    10   },  /* CH21 */
-                                     {  470  ,    33  ,    10   },  /* CH22 */
-                                     {  820  ,    51  ,    10   },  /* CH23 */
-                                     {  820  ,    47  ,    10   }   /* CH24 */ };
+uint32_t RESISTANCE[24][3]    =    { {   22  ,  1000  ,    100   },  /* CH01 */
+                                     {   47  ,   100  ,    100   },  /* CH02 */
+                                     {  100  ,   100  ,    100   },  /* CH03 */
+                                     {  180  ,   100  ,    100   },  /* CH04 */
+                                     {  270  ,   100  ,    100   },  /* CH05 */
+                                     {  330  ,   100  ,    100   },  /* CH06 */
+                                     {  390  ,   100  ,    100   },  /* CH07 */
+                                     {  470  ,   100  ,    100   },  /* CH08 */
+                                     {  820  ,   150  ,    100   },  /* CH09 */
+                                     {  560  ,   100  ,    100   },  /* CH10 */
+                                     {  680  ,   100  ,    100   },  /* CH11 */
+                                     {  100  ,   120  ,    100   },  /* CH12 */
+                                     {  820  ,   100  ,    100   },  /* CH13 */
+                                     {  560  ,    68  ,    100   },  /* CH14 */
+                                     {  470  ,    47  ,    100   },  /* CH15 */
+                                     { 1000  ,   100  ,    100   },  /* CH16 */
+                                     {  470  ,    47  ,    100   },  /* CH17 */
+                                     { 1200  ,   100  ,    100   },  /* CH18 */
+                                     { 1200  ,   100  ,    100   },  /* CH19 */
+                                     {  910  ,    51  ,    100   },  /* CH20 */
+                                     {  680  ,    47  ,    100   },  /* CH21 */
+                                     {  470  ,    33  ,    100   },  /* CH22 */
+                                     {  820  ,    51  ,    100   },  /* CH23 */
+                                     {  820  ,    47  ,    100   }   /* CH24 */ };
 
-uint16_t THRESHOLD[24] = { 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 ,
-                           160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 };
+uint16_t THRESHOLD[24] = { 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 ,
+                           110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 , 110 };
                                      
 enum CLI{
       Create_file = 0x31,
@@ -198,14 +198,14 @@ FRESULT scan_files (char* path)
 }
 
 bool Check10min (RTC_t * CurrentTime, RTC_t * OldTime, bool choose) {
-  char heading[200];
+  char heading[201];
   rtc_gettime(CurrentTime);
   if (choose) {
     if (((CurrentTime->min) - (OldTime->min)) >= 2 ) {
       if (OldTime->mday != CurrentTime->mday) {
         if(f_open(&fdst, "log.txt", FA_OPEN_EXISTING | FA_WRITE)==FR_OK ) {
           bw=1;
-          sprintf(heading,"\n\r\n\r         TIME\\CELL         NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
+          sprintf(heading,"\n\r\n\r         TIME\\CELL          NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
     
           res = f_lseek(&fdst, fdst.fsize);
           res = f_write(&fdst, heading, sizeof(heading), &bw);
@@ -310,7 +310,7 @@ void Converting(void) {
   uint8_t ch;
   for ( ch = 0; ch < 24 ; ch++ ){
     CELL.Ch[ch] = (CELL.Ch[ch] * ADC_VREF * (RESISTANCE[ch][0] + RESISTANCE[ch][1])) / (ADC_12BIT_FACTOR * RESISTANCE[ch][1]);
-    CELL.Ch[ch] =  (uint16_t)(CELL.Ch[ch] *  RESISTANCE[ch][2] / 10);
+    CELL.Ch[ch] =  (uint16_t)(CELL.Ch[ch] *  RESISTANCE[ch][2] / 100);
   }
 }
 
@@ -550,7 +550,7 @@ void CreateFile() {
   DIR dirs;
   RTC_t ModTime;
   
-  char heading[198];
+  char heading[199];
     
   disk_initialize(0);  
   
@@ -565,7 +565,7 @@ void CreateFile() {
   
   if(f_open(&fdst, "log.txt", FA_CREATE_NEW | FA_WRITE)==FR_OK ) {
     bw=1;
-    sprintf(heading,"\n\r         TIME\\CELL         NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
+    sprintf(heading,"\n\r         TIME\\CELL          NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
     
     //res = f_lseek(&fdst, fdst.fsize);
     res = f_write(&fdst, heading, sizeof(heading), &bw);
@@ -707,6 +707,7 @@ int main(void)
   // USART Config : 115200,8,n,1
   Serial_Init();
   
+  GPIOInit();
   ADCInit();
   DMAInit();
   
@@ -806,7 +807,7 @@ int main(void)
   rtc_gettime(&OldTime);
   
   printf("%02d-%02d-%02d\n\r",CurrentTime.year,CurrentTime.month,CurrentTime.mday);
-  printf("\n\r         TIME\\CELL         NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
+  printf("\n\r         TIME\\CELL          NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
   
   while (1)
   {
@@ -851,7 +852,7 @@ int main(void)
 #endif
     //}
     //enable_check10min = true;
-    Delay(10000);
+    Delay(5000);
   }
 }
 

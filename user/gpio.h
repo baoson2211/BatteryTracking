@@ -57,10 +57,10 @@
 #define RESET_LED23   { GPIO_ResetBits(GPIOG, GPIO_Pin_14); }
 #define RESET_LED24   { GPIO_ResetBits(GPIOB, GPIO_Pin_3 ); }
 
-#define MUX00         { GPIO_ResetBits(GPIOB, GPIO_Pin_7 ); GPIO_ResetBits(GPIOB, GPIO_Pin_3 ); }
-#define MUX01         { GPIO_ResetBits(GPIOB, GPIO_Pin_7 ); GPIO_SetBits  (GPIOB, GPIO_Pin_3 ); }
-#define MUX10         { GPIO_SetBits  (GPIOB, GPIO_Pin_7 ); GPIO_ResetBits(GPIOB, GPIO_Pin_3 ); }
-#define MUX11         { GPIO_SetBits  (GPIOB, GPIO_Pin_7 ); GPIO_SetBits  (GPIOB, GPIO_Pin_3 ); }
+#define MUX00         { GPIO_ResetBits(GPIOB, GPIO_Pin_7 ); GPIO_ResetBits(GPIOB, GPIO_Pin_5 ); }
+#define MUX01         { GPIO_ResetBits(GPIOB, GPIO_Pin_7 ); GPIO_SetBits  (GPIOB, GPIO_Pin_5 ); }
+#define MUX10         { GPIO_SetBits  (GPIOB, GPIO_Pin_7 ); GPIO_ResetBits(GPIOB, GPIO_Pin_5 ); }
+#define MUX11         { GPIO_SetBits  (GPIOB, GPIO_Pin_7 ); GPIO_SetBits  (GPIOB, GPIO_Pin_5 ); }
 
 #define RELAY_FLIP    { GPIO_SetBits  (GPIOB, GPIO_Pin_7 ) ;}
 #define RELAY_FLOP    { GPIO_ResetBits(GPIOB, GPIO_Pin_7 ) ;}
