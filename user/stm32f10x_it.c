@@ -22,9 +22,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+#include "stm32f10x_exti.h"
 #include "stm32f10x_rtc.h"
 #include "sdcard.h"
 #include "main.h"
+#include "gpio.h"
+
 
 /** @addtogroup STM32F10x_StdPeriph_Examples
   * @{
@@ -205,6 +208,15 @@ void DMA2_Channel4_5_IRQHandler(void)
 //	  statusADC3=1;    
 //   //Clear DMA2 interrupt pending bits
     DMA_ClearITPendingBit(DMA2_IT_GL5);
+  }
+}
+
+void EXTI1_IRQHandler(void)
+{
+  if(EXTI_GetITStatus(EXTI_Line1) != RESET)
+  {
+    RELAY_FLOP;
+    EXTI->PR = EXTI_Line1;
   }
 }
 
