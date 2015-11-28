@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include "gpio.h"
 #include "stm32f10x_rcc.h"
+#include "stm32f10x_exti.h"
 
 /** @addtogroup STM32F10x_GEM3M_Examples
   * @{
@@ -69,6 +70,7 @@
 
 void GPIOInit(void) {
   GPIO_InitTypeDef GPIO_InitStructure; 
+  EXTI_InitTypeDef  EXTI_InitStructure;
   
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | 
                          RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_GPIOF , ENABLE);
@@ -109,6 +111,12 @@ void GPIOInit(void) {
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_Init(GPIOG, &GPIO_InitStructure);
   
-  GPIO_ResetBits(GPIOB, GPIO_Pin_9 );
-  GPIO_SetBits  (GPIOD, GPIO_Pin_8 );
+  GPIO_ResetBits( GPIOB, GPIO_Pin_9 );
+  GPIO_ResetBits( GPIOD, GPIO_Pin_8 );
+  
+  EXTI_InitStructure.EXTI_Line = EXTI_Line1;
+  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
+  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+  EXTI_Init(&EXTI_InitStructure);
 }
