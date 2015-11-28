@@ -87,6 +87,9 @@ uint32_t RESISTANCE[24][3]    =    { {   22  ,  1000  ,    10   },  /* CH01 */
                                      {  820  ,    51  ,    10   },  /* CH23 */
                                      {  820  ,    47  ,    10   }   /* CH24 */ };
 
+uint16_t THRESHOLD[24] = { 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 ,
+                           160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 , 160 };
+                                     
 enum CLI{
       Create_file = 0x31,
       Write_file  = 0x32,
@@ -194,6 +197,34 @@ FRESULT scan_files (char* path)
 	return res;
 }
 
+bool Check10min (RTC_t * CurrentTime, RTC_t * OldTime, bool choose) {
+  char heading[200];
+  rtc_gettime(CurrentTime);
+  if (choose) {
+    if (((CurrentTime->min) - (OldTime->min)) >= 2 ) {
+      if (OldTime->mday != CurrentTime->mday) {
+        if(f_open(&fdst, "log.txt", FA_OPEN_EXISTING | FA_WRITE)==FR_OK ) {
+          bw=1;
+          sprintf(heading,"\n\r\n\r         TIME\\CELL         NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
+    
+          res = f_lseek(&fdst, fdst.fsize);
+          res = f_write(&fdst, heading, sizeof(heading), &bw);
+          res = f_close(&fdst);
+        }       
+      }
+      OldTime->hour  = CurrentTime->hour  ;
+      OldTime->min   = CurrentTime->min   ;
+      OldTime->sec   = CurrentTime->sec   ;
+      OldTime->year  = CurrentTime->year  ;
+      OldTime->month = CurrentTime->month ;
+      OldTime->mday  = CurrentTime->mday  ;
+      return true;
+    }
+    else return false;
+  }
+  else return true;
+}
+
 void Remapping (void){
 
 /* CD4052 pin pack BA = 00 */
@@ -278,7 +309,8 @@ void Remapping (void){
 void Converting(void) {
   uint8_t ch;
   for ( ch = 0; ch < 24 ; ch++ ){
-    CELL.Ch[ch] = (CELL.Ch[ch] * ADC_VREF * (RESISTANCE[ch][0]+ RESISTANCE[ch][1])) / (ADC_12BIT_FACTOR * RESISTANCE[ch][1]);
+    CELL.Ch[ch] = (CELL.Ch[ch] * ADC_VREF * (RESISTANCE[ch][0] + RESISTANCE[ch][1])) / (ADC_12BIT_FACTOR * RESISTANCE[ch][1]);
+    CELL.Ch[ch] =  (uint16_t)(CELL.Ch[ch] *  RESISTANCE[ch][2] / 10);
   }
 }
 
@@ -290,25 +322,264 @@ void ValueCell(void) {
   }
 }
 
+void Checking(uint8_t ch) {
+  switch (ch) {
+    case 0:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED01; 
+        RELAY_FLIP;
+      }
+      else SET_LED01;
+      break;
+    }
+    case 1:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED02; 
+        RELAY_FLIP;
+      }
+      else SET_LED02;
+      break;
+    }
+    case 2:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED03; 
+        RELAY_FLIP;
+      }
+      else SET_LED03;
+      break;
+    }
+    case 3:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED04; 
+        RELAY_FLIP;
+      }
+      else SET_LED04;
+      break;
+    }
+    case 4:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED05; 
+        RELAY_FLIP;
+      }
+      else SET_LED05;
+      break;
+    }
+    case 5:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED06; 
+        RELAY_FLIP;
+      }
+      else SET_LED06;
+      break;
+    }
+    case 6:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED07; 
+        RELAY_FLIP;
+      }
+      else SET_LED07;
+      break;
+    }
+    case 7:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED08; 
+        RELAY_FLIP;
+      }
+      else SET_LED08;
+      break;
+    }
+    case 8:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED09; 
+        RELAY_FLIP;
+      }
+      else SET_LED09;
+      break;
+    }
+    case 9:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED10; 
+        RELAY_FLIP;
+      }
+      else SET_LED10;
+      break;
+    }
+    case 10:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED11; 
+        RELAY_FLIP;
+      }
+      else SET_LED11;
+      break;
+    }
+    case 11:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED12; 
+        RELAY_FLIP;
+      }
+      else SET_LED12;
+      break;
+    }
+    case 12:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED13; 
+        RELAY_FLIP;
+      }
+      else SET_LED13;
+      break;
+    }
+    case 13:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED14; 
+        RELAY_FLIP;
+      }
+      else SET_LED14;
+      break;
+    }
+    case 14:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED15; 
+        RELAY_FLIP;
+      }
+      else SET_LED15;
+      break;
+    }
+    case 15:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED16; 
+        RELAY_FLIP;
+      }
+      else SET_LED16;
+      break;
+    }
+    case 16:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED17; 
+        RELAY_FLIP;
+      }
+      else SET_LED17;
+      break;
+    }
+    case 17:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED18; 
+        RELAY_FLIP;
+      }
+      else SET_LED18;
+      break;
+    }
+    case 18:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED19; 
+        RELAY_FLIP;
+      }
+      else SET_LED19;
+      break;
+    }
+    case 19:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED20; 
+        RELAY_FLIP;
+      }
+      else SET_LED20;
+      break;
+    }
+    case 20:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED21; 
+        RELAY_FLIP;
+      }
+      else SET_LED21;
+      break;
+    }
+    case 21:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED22; 
+        RELAY_FLIP;
+      }
+      else SET_LED22;
+      break;
+    }
+    case 22:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED23; 
+        RELAY_FLIP;
+      }
+      else SET_LED23;
+      break;
+    }
+    case 23:
+    {
+      if (CELL.Value[ch] <= THRESHOLD[ch]) {
+        RESET_LED24; 
+        RELAY_FLIP;
+      }
+      else SET_LED24;
+      break;
+    }
+    default: break;                          
+  } 
+}
+
 void CreateFile() {
   FRESULT res;
   FILINFO finfo;
   DIR dirs;
+  RTC_t ModTime;
   
-  char heading[162];
+  char heading[198];
     
   disk_initialize(0);  
   
   f_mount(0, &fs);
+  
+  NVIC_DisableIRQ( DMA1_Channel1_IRQn );
+  NVIC_DisableIRQ( DMA2_Channel4_5_IRQn );
+  NVIC_DisableIRQ( ADC1_2_IRQn );
+  NVIC_DisableIRQ( ADC1_2_IRQn );
  
+  rtc_gettime(&ModTime);
+  
   if(f_open(&fdst, "log.txt", FA_CREATE_NEW | FA_WRITE)==FR_OK ) {
     bw=1;
-    sprintf(heading,"      TIME       CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21  CH22  CH23  CH24\r\n");
-    f_write(&fdst, heading, sizeof(heading), &bw);
-    f_close(&fdst);
+    sprintf(heading,"\n\r         TIME\\CELL         NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
+    
+    //res = f_lseek(&fdst, fdst.fsize);
+    res = f_write(&fdst, heading, sizeof(heading), &bw);
+    finfo.fdate = (ModTime.year<<9)+((ModTime.month&0x000F)<<5)+((ModTime.month&0x001F));
+    finfo.fdate = ((ModTime.hour&0x001F)<<11)+((ModTime.min&0x003F)<<5)+((ModTime.sec&0x003E)<<1);
+    res = f_close(&fdst);
     printf("\n\rFile created !\n\r");
   }
   else printf("\n\rFile existed !\n\r"); 
+    
+  NVIC_EnableIRQ( DMA1_Channel1_IRQn );
+  NVIC_EnableIRQ( DMA2_Channel4_5_IRQn );
+  NVIC_EnableIRQ( ADC1_2_IRQn );
+  NVIC_EnableIRQ( ADC1_2_IRQn );
 }
 
 void WriteFile(void)
@@ -317,32 +588,47 @@ void WriteFile(void)
   FILINFO finfo;
   DIR dirs;
   
+  RTC_t RTC_Time,ModTime;
   uint8_t ch;
-  char time[17];
-  char string[6];
+  char time[27];
+  char string[7];
   
   disk_initialize(0);
     
   f_mount(0, &fs);
+  
+  NVIC_DisableIRQ( DMA1_Channel1_IRQn );
+  NVIC_DisableIRQ( DMA2_Channel4_5_IRQn );
+  NVIC_DisableIRQ( ADC1_2_IRQn );
+  NVIC_DisableIRQ( ADC1_2_IRQn );
       
   if(f_open(&fdst, "log.txt", FA_OPEN_EXISTING | FA_WRITE)==FR_OK ) {
     bw=1;
      
-    //print averages
-    f_lseek(&fdst, fdst.fsize); 
-    //sTime_Display(RTC_GetCounter(), time); 
-    f_write(&fdst, time, sizeof(time), &bw); 
-    f_sync(&fdst); 
+    rtc_gettime(&RTC_Time);
+    sprintf(time,"\r\nTime: %4d-%2d-%2d %0.2d:%0.2d:%0.2d ",RTC_Time.year,RTC_Time.month,RTC_Time.mday,
+                                                            RTC_Time.hour,RTC_Time.min,RTC_Time.sec);
+    
+    res = f_lseek(&fdst, fdst.fsize); //fdst.fsize
+    res = f_write(&fdst, time, sizeof(time), &bw); 
+    res = f_sync(&fdst); 
       
     //f_lseek(&fdst, fdst.fsize);
     for(ch = 0; ch < 24; ch++){ 
-      f_lseek(&fdst, fdst.fsize); 
-      sprintf(string,"  %4d", CELL.Ch[ch]);  
-      f_write(&fdst, string, sizeof(string), &bw); 
-      f_sync(&fdst); 
+      res = f_lseek(&fdst, fdst.fsize); //fdst.fsize
+      sprintf(string,"  %5d", CELL.Ch[ch]);  
+      res = f_write(&fdst, string, sizeof(string), &bw); 
+      res = f_sync(&fdst); 
     }
+    rtc_gettime(&ModTime);
+    finfo.fdate = (ModTime.year<<9)+((ModTime.month&0x000F)<<5)+((ModTime.month&0x001F));
+    finfo.fdate = ((ModTime.hour&0x001F)<<11)+((ModTime.min&0x003F)<<5)+((ModTime.sec&0x003E)<<1);
     f_close(&fdst);
   }
+  NVIC_EnableIRQ( DMA1_Channel1_IRQn );
+  NVIC_EnableIRQ( DMA2_Channel4_5_IRQn );
+  NVIC_EnableIRQ( ADC1_2_IRQn );
+  NVIC_EnableIRQ( ADC1_2_IRQn );
 }
 
 void ReadFile(void)
@@ -402,9 +688,11 @@ void ReadFile(void)
 *******************************************************************************/
 int main(void)
 {
-  RTC_t RTC_Time;
-  char time[16];
+  RTC_t CurrentTime, OldTime;
+//char time[16];
   uint8_t ch = 0;
+  bool enable_check10min = false;
+  
 #ifdef DEBUG
   debug();
 #endif
@@ -449,8 +737,8 @@ int main(void)
   /* Set Device Transfer Mode to DMA */
   if (Status == SD_OK)
   {  
-//    Status = SD_SetDeviceMode(SD_DMA_MODE);//oet
- //   Status = SD_SetDeviceMode(SD_POLLING_MODE);
+  //Status = SD_SetDeviceMode(SD_DMA_MODE);//oet
+  //Status = SD_SetDeviceMode(SD_POLLING_MODE);
     Status = SD_SetDeviceMode(SD_INTERRUPT_MODE);
 	  printf("\r\n\rTEST OK!\r\n\r");
   }
@@ -470,9 +758,9 @@ int main(void)
 		/* Adjust time by values entred by the user on the hyperterminal */
 		//RTC_WaitForLastTask();
     
-    Time_Regulate(&RTC_Time); 
+    Time_Regulate(&CurrentTime); 
     
-    rtc_settime(&RTC_Time);                // set thoi gian ban dau 
+    rtc_settime(&CurrentTime);                // set thoi gian ban dau 
     /* Wait until last write operation on RTC registers has finished */
     //RTC_WaitForLastTask();
     
@@ -513,30 +801,34 @@ int main(void)
     
   //Enable DMA2 Channel transfer
   DMA_Cmd(DMA2_Channel5, ENABLE);
+    
+  rtc_gettime(&CurrentTime);
+  rtc_gettime(&OldTime);
   
-  rtc_gettime(&RTC_Time);
-  printf("%02d-%02d-%02d\n\r",RTC_Time.year,RTC_Time.month,RTC_Time.mday);
-  printf("      TIME       CH01  CH02  CH03  CH04  CH05  CH06  CH07  CH08  CH09  CH10  CH11  CH12  CH13  CH14  CH15  CH16  CH17  CH18  CH19  CH20  CH21  CH22  CH23  CH24\r\n");
+  printf("%02d-%02d-%02d\n\r",CurrentTime.year,CurrentTime.month,CurrentTime.mday);
+  printf("\n\r         TIME\\CELL         NO.01  NO.02  NO.03  NO.04  NO.05  NO.06  NO.07  NO.08  NO.09  NO.10  NO.11  NO.12  NO.13  NO.14  NO.15  NO.16  NO.17  NO.18  NO.19  NO.20  NO.21  NO.22  NO.23  NO.24\r\n");
   
   while (1)
   {
     Remapping();
     Converting();
     ValueCell();
-    //printf("running \r\n");
+    for (ch = 0 ; ch < 24 ; ch ++) {  Checking(ch); }
+    //if (Check10min( &CurrentTime , &OldTime , enable_check10min)) {
 #ifndef RELEASE
-    WriteFile();
-    //printf(".");
+      WriteFile();
+      printf(".");
 #endif    
 #ifdef TEST 
-    //sTime_Display(RTC_GetCounter(), time);
-    rtc_gettime(&RTC_Time);
-    printf("\r\nTime: %3.2d:%0.2d:%0.2d",RTC_Time.hour,RTC_Time.min,RTC_Time.sec);
-    
-    for(ch = 0; ch < 24; ch++) {
-      //printf("  %4d", (uint16_t) CELL.Value[ch]);
-      printf("  %4d", (uint16_t) CELL.Ch[ch]);
-    }
+      //sTime_Display(RTC_GetCounter(), time);
+      //rtc_gettime(&CurrentTime);
+      printf("\r\nTime: %4d-%2d-%2d %0.2d:%0.2d:%0.2d ",CurrentTime.year,CurrentTime.month,CurrentTime.mday,
+                                                        CurrentTime.hour,CurrentTime.min,CurrentTime.sec);
+      
+      for(ch = 0; ch < 24; ch++) {
+      //printf("  %5d", (uint16_t) CELL.Value[ch]);
+        printf("  %5d", (uint16_t) CELL.Ch[ch]);
+      }
 /*  -- to be changed --
     //Start ADC1 Software Conversion
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
@@ -556,7 +848,9 @@ int main(void)
       printf("  %4d", (uint16_t) ADC3_values[ch]);
     }
 */
-#endif    
+#endif
+    //}
+    //enable_check10min = true;
     Delay(10000);
   }
 }
@@ -639,13 +933,19 @@ void NVIC_Configuration(void)
 
 	/* Enable the DMA Interrupt */  
   NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
   NVIC_InitStructure.NVIC_IRQChannel = DMA2_Channel4_5_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
