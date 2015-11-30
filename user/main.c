@@ -627,7 +627,7 @@ void WriteFile(void)
   NVIC_DisableIRQ( ADC1_2_IRQn );
   NVIC_DisableIRQ( EXTI1_IRQn );
       
-  if(f_open(&fdst, "log.txt", FA_OPEN_EXISTING | FA_WRITE)==FR_OK ) {
+  if(f_open(&fdst, "log.txt", FA_OPEN_ALWAYS | FA_WRITE)==FR_OK ) {
     bw=1;
      
     rtc_gettime(&RTC_Time);
@@ -742,39 +742,6 @@ int main(void)
   // USART Config : 115200,8,n,1
   Serial_Init();
   
-  /////////////////////////////////////////////////////////////////////
-  //////// SDCARD Initialisation //////////////////////////////////////
-  /////////////////Section adapted from ST example/////////////////////
-  
-  /*-------------------------- SD Init ----------------------------- */
-  Status = SD_Init();
-
-  if (Status == SD_OK)
-  {
-    /*----------------- Read CSD/CID MSD registers ------------------*/
-    Status = SD_GetCardInfo(&SDCardInfo);
-  }
-  
-  if (Status == SD_OK)
-  {
-    /*----------------- Select Card --------------------------------*/
-    Status = SD_SelectDeselect((u32) (SDCardInfo.RCA << 16));
-  }
-  
-  if (Status == SD_OK)
-  {
-    //Status = SD_EnableWideBusOperation(SDIO_BusWide_4b);
-  }
-  
-  /* Set Device Transfer Mode to DMA */
-  if (Status == SD_OK)
-  {  
-  //Status = SD_SetDeviceMode(SD_DMA_MODE);//oet
-  //Status = SD_SetDeviceMode(SD_POLLING_MODE);
-    Status = SD_SetDeviceMode(SD_INTERRUPT_MODE);
-	  printf("\r\n\rTEST OK!\r\n\r");
-  }
-  
   if (BKP_ReadBackupRegister(BKP_DR1) != 0xA5A5)
 	{
 		/* Backup data register value is not correct or not yet programmed (when
@@ -822,15 +789,47 @@ int main(void)
     
     printf("\r\n");
 	}
+  
+  /* Initialize GPIO & ADC /w DMA */
+  GPIOInit();
+  ADCInit();
+  DMAInit();
+  
+  /////////////////////////////////////////////////////////////////////
+  //////// SDCARD Initialisation //////////////////////////////////////
+  /////////////////Section adapted from ST example/////////////////////
+  
+  /*-------------------------- SD Init ----------------------------- */
+  Status = SD_Init();
+
+  if (Status == SD_OK)
+  {
+    /*----------------- Read CSD/CID MSD registers ------------------*/
+    Status = SD_GetCardInfo(&SDCardInfo);
+  }
+  
+  if (Status == SD_OK)
+  {
+    /*----------------- Select Card --------------------------------*/
+    Status = SD_SelectDeselect((u32) (SDCardInfo.RCA << 16));
+  }
+  
+  if (Status == SD_OK)
+  {
+    //Status = SD_EnableWideBusOperation(SDIO_BusWide_4b);
+  }
+  
+  /* Set Device Transfer Mode to DMA */
+  if (Status == SD_OK)
+  {  
+  //Status = SD_SetDeviceMode(SD_DMA_MODE);//oet
+  //Status = SD_SetDeviceMode(SD_POLLING_MODE);
+    Status = SD_SetDeviceMode(SD_INTERRUPT_MODE);
+	  printf("\r\n\rTEST OK!\r\n\r");
+  }
 
 	/* Clear reset flags */
 	RCC_ClearFlag();
-  
-  /* Initialize GPIO */
-  GPIOInit();
-  /* Initialize ADC /w DMA */
-  ADCInit();
-  DMAInit();
     
   /* Create log file */
   CreateFile(); 
@@ -872,7 +871,7 @@ int main(void)
         Light(ch);
       }
       printf(".");
-  }
+    }
     
     if (tick == INTERVAL_TIME) {
 #ifdef RELEASE
