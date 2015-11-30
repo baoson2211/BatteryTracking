@@ -1,3 +1,15 @@
+/**
+  ******************************************************************************
+  * @file    	../user/main.c
+  * @author  	Bao Son Le - ET02 - K55
+  * @version 	V1.0.0
+  * @date    	2015/11/30
+  * @brief   	Main program body.
+  ******************************************************************************
+  * @copy
+  *
+  */ 
+
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "sdcard.h"
@@ -44,8 +56,8 @@ uint8_t NbrOfDataToRead1 = RxBufferSize1;
 __IO uint32_t TimingDelay;
 
 extern __IO uint32_t TimeDisplay;
-extern volatile uint16_t ADC1_values[ADC1_ARRAYSIZE];
-extern volatile uint16_t ADC3_values[ADC3_ARRAYSIZE];
+extern volatile uint16_t ADC1_values[ADC1_ARRAYSIZE]; //ADC1 Value
+extern volatile uint16_t ADC3_values[ADC3_ARRAYSIZE]; //ADC3 Value
 extern volatile uint8_t  statusADC1, statusADC3;
 
 /* Private define ------------------------------------------------------------*/
@@ -60,9 +72,7 @@ extern volatile uint8_t  statusADC1, statusADC3;
 #define RELEASE              1
 #define TESTLED              1
 
-/* Array resistance voltage divider:    R1/1 |  R2/10 | scale * 10
- * 
- */
+/* Array resistance voltage divider:    R1/1 |  R2/10 | scale * 10           */
 uint32_t RESISTANCE[24][3]    =    { {   22  ,  1000  ,    112   },  /* CH01 */
                                      {   47  ,   100  ,    108   },  /* CH02 */
                                      {  100  ,   100  ,    109   },  /* CH03 */
@@ -77,45 +87,46 @@ uint32_t RESISTANCE[24][3]    =    { {   22  ,  1000  ,    112   },  /* CH01 */
                                      {  100  ,   120  ,     22   },  /* CH12 */
                                      {  820  ,   100  ,    109   },  /* CH13 */
                                      {  560  ,    68  ,    108   },  /* CH14 */
-                                     {  470  ,    47  ,    110   },  /* CH15 */
+                                     {  470  ,    47  ,    106   },  /* CH15 */
                                      { 1000  ,   100  ,    106   },  /* CH16 */
                                      {  470  ,    47  ,    104   },  /* CH17 */
                                      { 1200  ,   100  ,    102   },  /* CH18 */
                                      { 1200  ,   100  ,    103   },  /* CH19 */
                                      {  910  ,    51  ,    100   },  /* CH20 */
-                                     {  680  ,    47  ,     99   },  /* CH21 */
-                                     {  470  ,    33  ,     98   },  /* CH22 */
-                                     {  820  ,    51  ,    100   },  /* CH23 */
-                                     {  820  ,    47  ,    100   }   /* CH24 */ };
+                                     {  680  ,    47  ,    104   },  /* CH21 */
+                                     {  470  ,    33  ,    105   },  /* CH22 */
+                                     {  820  ,    51  ,    104   },  /* CH23 */
+                                     {  820  ,    47  ,    107   }   /* CH24 */ };
 
+/* Minimum threshold voltage be accepted */
 const int16_t THRESHOLD[24] = { 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 ,
                                 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 , 175 };
 
-                                /* WARN | STATE */
-static __IO uint8_t WARNING[24][2]={ { 0, 0 },  /* CH01 */
-                                     { 0, 0 },  /* CH02 */
-                                     { 0, 0 },  /* CH03 */
-                                     { 0, 0 },  /* CH04 */
-                                     { 0, 0 },  /* CH05 */
-                                     { 0, 0 },  /* CH06 */ 
-                                     { 0, 0 },  /* CH07 */
-                                     { 0, 0 },  /* CH08 */
-                                     { 0, 0 },  /* CH09 */
-                                     { 0, 0 },  /* CH10 */
-                                     { 0, 0 },  /* CH11 */
-                                     { 0, 0 },  /* CH12 */
-                                     { 0, 0 },  /* CH13 */
-                                     { 0, 0 },  /* CH14 */
-                                     { 0, 0 },  /* CH15 */
-                                     { 0, 0 },  /* CH16 */
-                                     { 0, 0 },  /* CH17 */ 
-                                     { 0, 0 },  /* CH18 */
-                                     { 0, 0 },  /* CH19 */
-                                     { 0, 0 },  /* CH20 */
-                                     { 0, 0 },  /* CH21 */
-                                     { 0, 0 },  /* CH22 */ 
-                                     { 0, 0 },  /* CH23 */
-                                     { 0, 0 }   /* CH24 */      };
+/* Warning statement                WARN | STATE */
+static __IO uint8_t WARNING[24][2]={ { 0 , 0 },  /* CH01 */
+                                     { 0 , 0 },  /* CH02 */
+                                     { 0 , 0 },  /* CH03 */
+                                     { 0 , 0 },  /* CH04 */
+                                     { 0 , 0 },  /* CH05 */
+                                     { 0 , 0 },  /* CH06 */ 
+                                     { 0 , 0 },  /* CH07 */
+                                     { 0 , 0 },  /* CH08 */
+                                     { 0 , 0 },  /* CH09 */
+                                     { 0 , 0 },  /* CH10 */
+                                     { 0 , 0 },  /* CH11 */
+                                     { 0 , 0 },  /* CH12 */
+                                     { 0 , 0 },  /* CH13 */
+                                     { 0 , 0 },  /* CH14 */
+                                     { 0 , 0 },  /* CH15 */
+                                     { 0 , 0 },  /* CH16 */
+                                     { 0 , 0 },  /* CH17 */ 
+                                     { 0 , 0 },  /* CH18 */
+                                     { 0 , 0 },  /* CH19 */
+                                     { 0 , 0 },  /* CH20 */
+                                     { 0 , 0 },  /* CH21 */
+                                     { 0 , 0 },  /* CH22 */ 
+                                     { 0 , 0 },  /* CH23 */
+                                     { 0 , 0 }   /* CH24 */      };
                            
 enum CLI{
       Create_file = 0x31,
@@ -123,6 +134,14 @@ enum CLI{
       Read_file   = 0x33
     } cmd;
 
+/**
+  * @brief  Cell structure
+  * 
+  * @var    uint16_t Ch[24]     - Channels input voltage 
+  * @var    int16_t  Value[24]  - Cells voltage 
+  * @var    uint16_t Voltage    - Battery voltage 
+  * 
+  */
 struct _CELL {
       uint16_t Ch[24];  
        int16_t Value[24];
@@ -172,6 +191,11 @@ void RTC_Configuration(void);
   */
 
 
+/**
+  * @brief  Delay nTime milliseconds with systick timer
+  * @param  __IO uint32_t nTime
+  * @retval none
+  */
 void Delay(__IO uint32_t nTime)
 {
   TimingDelay = nTime;
@@ -187,43 +211,24 @@ void TimingDelay_Decrement(void)
   }
 }
 
+/**
+  * @brief  RCC Configuration
+  * @param  none
+  * @retval none
+  */
 void RCC_Configuration(void)
 {
   /* Setup the microcontroller system. Initialize the Embedded Flash Interface,
      initialize the PLL and update the SystemFrequency variable. */
   SystemInit();
 }
-    
-static
-FRESULT scan_files (char* path)
-{
-  DWORD acc_size;				/* Work register for fs command */
-  WORD acc_files, acc_dirs;
-  FILINFO finfo;
-  DIR dirs;
-  FRESULT res;
-  BYTE i;
 
-
-	if ((res = f_opendir(&dirs, path)) == FR_OK) {
-		i = strlen(path);
-		while (((res = f_readdir(&dirs, &finfo)) == FR_OK) && finfo.fname[0]) {
-			if (finfo.fattrib & AM_DIR) {
-				acc_dirs++;
-				*(path+i) = '/'; strcpy(path+i+1, &finfo.fname[0]);
-				res = scan_files(path);
-				*(path+i) = '\0';
-				if (res != FR_OK) break;
-			} else {
-				acc_files++;
-				acc_size += finfo.fsize;
-			}
-		}
-	}
-
-	return res;
-}
-
+/**
+  * @brief  Remapping: mapping cell channels to ADC channel inputs, Analog to Digital converter and
+  *         cell channel seleted by CD4052
+  * @param  none
+  * @retval none
+  */
 void Remapping (void){
 
 /* CD4052 pin pack BA = 00 */
@@ -353,6 +358,11 @@ void Remapping (void){
                    ADC3_values[2+(3*8)] + ADC3_values[2+(3*9)] ) / 10 );
 }
 
+/**
+  * @brief  Converting ADC value to channel inputs voltage
+  * @param  none
+  * @retval none
+  */
 void Converting(void) {
   uint8_t ch;
   for ( ch = 0; ch < 24 ; ch++ ){
@@ -361,6 +371,11 @@ void Converting(void) {
   }
 }
 
+/**
+  * @brief  Calculate cells voltage
+  * @param  none
+  * @retval none
+  */
 void ValueCell(void) {
   CELL.Value[0]  = (int16_t)   CELL.Ch[0];
   CELL.Value[1]  = (int16_t) ( CELL.Ch[1]  - CELL.Ch[0]);
@@ -388,6 +403,12 @@ void ValueCell(void) {
   CELL.Value[23] = (int16_t) ( CELL.Ch[23] - CELL.Ch[22]);
 }
 
+/**
+  * @brief  Checking cells voltage, if cells voltage less threshold of channel
+  *         If this true, will be warning
+  * @param  none
+  * @retval none
+  */
 void Checking(uint8_t ch) {  
   if ( ( CELL.Value[ch]) < THRESHOLD[ch] ) { 
     RELAY_FLIP;
@@ -398,6 +419,11 @@ void Checking(uint8_t ch) {
   }
 }
 
+/**
+  * @brief  Turn on/off led if will be warning
+  * @param  none
+  * @retval none
+  */
 void Light(uint8_t ch) {
   if (WARNING[ch][0])
     Set_IO(ch);
@@ -405,6 +431,13 @@ void Light(uint8_t ch) {
     Reset_IO(ch);
 }
 
+/**
+  * @brief  Indicator when every minute had gone
+  * @param  RTC_t * CurrentTime 
+  * @param  RTC_t * OldTime 
+  * @param  bool    choose        (allow / denied function)
+  * @retval none
+  */
 bool Tick (RTC_t * CurrentTime, RTC_t * OldTime, bool choose) {
   char heading[201];
   //uint8_t ch;
@@ -468,7 +501,47 @@ bool Tick (RTC_t * CurrentTime, RTC_t * OldTime, bool choose) {
 //  else return true;
 //}
 
-void CreateFile() {
+/**
+  * @brief  scan file in sd card
+  * @param  char* path           ( path of directory )
+  * @retval none
+  */
+static
+FRESULT scan_files (char* path)
+{
+  DWORD acc_size;				/* Work register for fs command */
+  WORD acc_files, acc_dirs;
+  FILINFO finfo;
+  DIR dirs;
+  FRESULT res;
+  BYTE i;
+
+
+	if ((res = f_opendir(&dirs, path)) == FR_OK) {
+		i = strlen(path);
+		while (((res = f_readdir(&dirs, &finfo)) == FR_OK) && finfo.fname[0]) {
+			if (finfo.fattrib & AM_DIR) {
+				acc_dirs++;
+				*(path+i) = '/'; strcpy(path+i+1, &finfo.fname[0]);
+				res = scan_files(path);
+				*(path+i) = '\0';
+				if (res != FR_OK) break;
+			} else {
+				acc_files++;
+				acc_size += finfo.fsize;
+			}
+		}
+	}
+
+	return res;
+}
+
+/**
+  * @brief  created new file
+  * @param  none
+  * @retval none
+  */
+void CreateFile(void) {
   FRESULT res;
   FILINFO finfo;
   DIR dirs;
@@ -498,7 +571,7 @@ void CreateFile() {
     res = f_write(&fdst, heading, sizeof(heading), &bw);
     res = f_sync(&fdst);
         
-    sprintf(heading,"====  MADE BY: BAO SON LE         ====\r\n");
+    sprintf(heading,"====  MADE BY:                    ====\r\n");
     
     res = f_lseek(&fdst, fdst.fsize);
     res = f_write(&fdst, heading, sizeof(heading), &bw);
@@ -528,6 +601,11 @@ void CreateFile() {
   NVIC_EnableIRQ( EXTI1_IRQn );
 }
 
+/**
+  * @brief  write into log file
+  * @param  none
+  * @retval none
+  */
 void WriteFile(void)
 { 
   FRESULT res;
@@ -563,13 +641,18 @@ void WriteFile(void)
       
     //f_lseek(&fdst, fdst.fsize);
     for(ch = 0; ch < 24; ch++){ 
+      res = f_lseek(&fdst, fdst.fsize); //fdst.fsize 
+      sprintf(string,"  %5d", (int16_t) CELL.Value[ch]);  
+      res = f_write(&fdst, string, sizeof(string), &bw); 
+      res = f_sync(&fdst);
+      
       res = f_lseek(&fdst, fdst.fsize); //fdst.fsize
       if (WARNING[ch][0])
         sprintf(string,"  WARN!");
-      else  
-        sprintf(string,"  %5d", (int16_t) CELL.Value[ch]);  
+      else
+        sprintf(string,"       ");  
       res = f_write(&fdst, string, sizeof(string), &bw); 
-      res = f_sync(&fdst); 
+      res = f_sync(&fdst);
     }
     f_close(&fdst);
   }
@@ -580,53 +663,54 @@ void WriteFile(void)
   NVIC_EnableIRQ( EXTI1_IRQn );
 }
 
-void ReadFile(void)
-{ 
-  unsigned int a;
-  FRESULT res;
-  FILINFO finfo;
-  DIR dirs;
-  //int i;
-  //char *fn;
-  
-  char path[50]={""};  
-  //char name[]={"WVO.TXT"};
-  
-  disk_initialize(0);
-    
-  f_mount(0, &fs);
-  
-  //printf("\n\rPlease fill name's file you want to read(max. 13 character): ");
-  //fstring(finfo.fname);
-  strcpy(finfo.fname,"log.txt");
-  
-  if (f_opendir(&dirs, path) == FR_OK) 
-  {
-    while (f_readdir(&dirs, &finfo) == FR_OK)  
-    {
-      if (finfo.fattrib & AM_ARC) 
-      {
-        if(!finfo.fname[0])	
-          break;         
-        printf("\n\r file name is:\r\n\r   %s\r\n",finfo.fname);
-        res = f_open(&fdst, finfo.fname, FA_OPEN_EXISTING | FA_READ);
-		    bw=1;
-	    	a=0;
-		    for (;;) {
-			  for(a=0; a<512; a++) buffer[a]=0; 
-    	    res = f_read(&fdst, buffer, sizeof(buffer), &br);
-			  printf("%s\r\n\r",buffer);	
-			    //printp("\r\n\r@@@@@res=%2d  br=%6d  bw=%6d",res,br,bw);
-    	    if (res || br == 0) break;   // error or eof
-       	  //if (res || bw < br) break;   // error or disk full	
-        }
-		  f_close(&fdst);                     
-      }
-    } 
-  }
+/* Dont be used */
+//void ReadFile(void)
+//{ 
+//  unsigned int a;
+//  FRESULT res;
+//  FILINFO finfo;
+//  DIR dirs;
+//  //int i;
+//  //char *fn;
+//  
+//  char path[50]={""};  
+//  //char name[]={"WVO.TXT"};
+//  
+//  disk_initialize(0);
+//    
+//  f_mount(0, &fs);
+//  
+//  //printf("\n\rPlease fill name's file you want to read(max. 13 character): ");
+//  //fstring(finfo.fname);
+//  strcpy(finfo.fname,"log.txt");
+//  
+//  if (f_opendir(&dirs, path) == FR_OK) 
+//  {
+//    while (f_readdir(&dirs, &finfo) == FR_OK)  
+//    {
+//      if (finfo.fattrib & AM_ARC) 
+//      {
+//        if(!finfo.fname[0])	
+//          break;         
+//        printf("\n\r file name is:\r\n\r   %s\r\n",finfo.fname);
+//        res = f_open(&fdst, finfo.fname, FA_OPEN_EXISTING | FA_READ);
+//		    bw=1;
+//	    	a=0;
+//		    for (;;) {
+//			  for(a=0; a<512; a++) buffer[a]=0; 
+//    	    res = f_read(&fdst, buffer, sizeof(buffer), &br);
+//			  printf("%s\r\n\r",buffer);	
+//			    //printp("\r\n\r@@@@@res=%2d  br=%6d  bw=%6d",res,br,bw);
+//    	    if (res || br == 0) break;   // error or eof
+//       	  //if (res || bw < br) break;   // error or disk full	
+//        }
+//		  f_close(&fdst);                     
+//      }
+//    } 
+//  }
 
-  //while(1);
-}
+//  //while(1);
+//}
 
 /*******************************************************************************
 * Function Name  : main
@@ -657,10 +741,6 @@ int main(void)
   
   // USART Config : 115200,8,n,1
   Serial_Init();
-  
-  GPIOInit();
-  ADCInit();
-  DMAInit();
   
   /////////////////////////////////////////////////////////////////////
   //////// SDCARD Initialisation //////////////////////////////////////
@@ -746,6 +826,13 @@ int main(void)
 	/* Clear reset flags */
 	RCC_ClearFlag();
   
+  /* Initialize GPIO */
+  GPIOInit();
+  /* Initialize ADC /w DMA */
+  ADCInit();
+  DMAInit();
+    
+  /* Create log file */
   CreateFile(); 
   
   //Enable DMA1 Channel transfer
