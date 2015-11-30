@@ -547,9 +547,9 @@ void CreateFile(void) {
   DIR dirs;
   
   RTC_t RTC_Time;
-  char time[37];
-  char heading[40];
-  char banner[201];
+  char time[36];
+  char heading[30];
+  char banner[200];
     
   disk_initialize(0);  
   
@@ -565,13 +565,13 @@ void CreateFile(void) {
     bw=1;
     rtc_gettime(&RTC_Time);
     
-    sprintf(heading,"====  BATTERY MONITORING LOG FILE ====\r\n");
+    sprintf(heading,"BATTERY MONITORING LOG FILE \r\n");
     
     //res = f_lseek(&fdst, fdst.fsize);
     res = f_write(&fdst, heading, sizeof(heading), &bw);
     res = f_sync(&fdst);
         
-    sprintf(heading,"====  MADE BY:                    ====\r\n");
+    sprintf(heading,"MADE BY:                    \r\n");
     
     res = f_lseek(&fdst, fdst.fsize);
     res = f_write(&fdst, heading, sizeof(heading), &bw);
@@ -629,7 +629,8 @@ void WriteFile(void)
       
   if(f_open(&fdst, "log.txt", FA_OPEN_ALWAYS | FA_WRITE)==FR_OK ) {
     bw=1;
-     
+    
+    /* Time - Voltage */
     rtc_gettime(&RTC_Time);
     
     sprintf(time,"\r\nTime: %4d-%2d-%2d %0.2d:%0.2d:%0.2d ",RTC_Time.year,RTC_Time.month,RTC_Time.mday,
@@ -640,12 +641,21 @@ void WriteFile(void)
     res = f_sync(&fdst); 
       
     //f_lseek(&fdst, fdst.fsize);
-    for(ch = 0; ch < 24; ch++){ 
+    for(ch = 0; ch < 24; ch++) { 
       res = f_lseek(&fdst, fdst.fsize); //fdst.fsize 
       sprintf(string,"  %5d", (int16_t) CELL.Value[ch]);  
       res = f_write(&fdst, string, sizeof(string), &bw); 
       res = f_sync(&fdst);
-      
+    }
+    
+    /* Warning State */
+    sprintf(time,"\r\nWARNING STATE:           ");
+    
+    res = f_lseek(&fdst, fdst.fsize); //fdst.fsize
+    res = f_write(&fdst, time, sizeof(time), &bw); 
+    res = f_sync(&fdst);
+    
+    for(ch = 0; ch < 24; ch++) {      
       res = f_lseek(&fdst, fdst.fsize); //fdst.fsize
       if (WARNING[ch][0])
         sprintf(string,"  WARN!");
@@ -721,7 +731,7 @@ void WriteFile(void)
 *******************************************************************************/
 int main(void)
 {
-  static uint8_t tick = INTERVAL_TIME;
+  static uint16_t tick = INTERVAL_TIME;
   static RTC_t CurrentTime, OldTime;
 //char time[16];
   uint8_t ch = 0;
@@ -759,7 +769,7 @@ int main(void)
     
     Time_Regulate(&CurrentTime); 
     
-    rtc_settime(&CurrentTime);                // set thoi gian ban dau 
+    rtc_settime(&CurrentTime);
     /* Wait until last write operation on RTC registers has finished */
     //RTC_WaitForLastTask();
     
@@ -863,6 +873,11 @@ int main(void)
   {
     if (Tick( &CurrentTime , &OldTime , enable_checkinterval)) {
       tick++;
+    }
+    if ((tick == 30)||(tick == 60)||(tick == 90)||(tick ==120)||(tick ==150)||
+        (tick ==180)||(tick ==210)||(tick ==240)||(tick ==270)||(tick ==INTERVAL_TIME)) {
+          
+      //printf(".");
       Remapping();
       Converting();
       ValueCell();
@@ -870,9 +885,7 @@ int main(void)
         Checking(ch);      
         Light(ch);
       }
-      printf(".");
     }
-    
     if (tick == INTERVAL_TIME) {
 #ifdef RELEASE
       WriteFile();
