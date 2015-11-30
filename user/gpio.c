@@ -1,23 +1,15 @@
 /**
   ******************************************************************************
-  * @file    	ADC/Potentiometer/main.c
-  * @author  	ARMVN Application Team
+  * @file    	../user/gpio.c
+  * @author  	Bao Son Le - ET02 - K55
   * @version 	V1.0.0
-  * @date    	14/03/2010
-  * @brief   	Main program body.
+  * @date    	2015/11/30
+  * @brief   	GPIO basic function define.
   ******************************************************************************
   * @copy
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-  *
-  * <h2><center>&copy; COPYRIGHT 2009 ARMVietNam</center></h2>
   */ 
-  
+
 /*
 *************************************************************************************************************************************
 *															INCLUDED FILES															*
@@ -68,6 +60,14 @@
 *************************************************************************************************************************************
 */
 
+/**
+ * @brief  GPIO initialize
+ *
+ * @param  none
+ * @return none
+ *
+ * GPIO init command
+ */
 void GPIOInit(void) {
   GPIO_InitTypeDef GPIO_InitStructure; 
   EXTI_InitTypeDef  EXTI_InitStructure;
@@ -106,7 +106,8 @@ void GPIOInit(void) {
   GPIO_Init(GPIOE, &GPIO_InitStructure);
   
   GPIO_StructInit(&GPIO_InitStructure); // Reset init structure, if not it can cause issues...
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_5 | GPIO_Pin_7 | GPIO_Pin_10 | GPIO_Pin_12 | GPIO_Pin_14 ;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_5 | GPIO_Pin_7 | GPIO_Pin_10 | GPIO_Pin_12 | GPIO_Pin_14 |
+                                GPIO_Pin_2 | GPIO_Pin_4 | GPIO_Pin_6 | GPIO_Pin_8  | GPIO_Pin_15 ;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_Init(GPIOG, &GPIO_InitStructure);
@@ -122,6 +123,14 @@ void GPIOInit(void) {
   EXTI_Init(&EXTI_InitStructure);
 }
 
+/**
+ * @brief  Set a GPIO Pin
+ *
+ * @param  uint8_t ch
+ * @return none
+ *
+ * Set_IO command
+ */
 void Set_IO(uint8_t ch){
   switch (ch) {
     case 0:  SET_LED01  ; break;
@@ -152,6 +161,14 @@ void Set_IO(uint8_t ch){
   }
 }
 
+/**
+ * @brief  Reset a GPIO Pin
+ *
+ * @param  uint8_t ch
+ * @return none
+ *
+ * et_IO command
+ */
 void Reset_IO(uint8_t ch){
   switch (ch) {
     case 0:  RESET_LED01  ; break;
@@ -178,6 +195,6 @@ void Reset_IO(uint8_t ch){
     case 21: RESET_LED22  ; break;
     case 22: RESET_LED23  ; break; 
     case 23: RESET_LED24  ; break;
-    default:              break;
+    default:                break;
   }
 }
