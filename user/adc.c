@@ -1,22 +1,14 @@
 /**
   ******************************************************************************
-  * @file    	ADC/Potentiometer/main.c
-  * @author  	ARMVN Application Team
+  * @file    	../user/adc.c
+  * @author  	Bao Son Le - ET02 - K55
   * @version 	V1.0.0
-  * @date    	14/03/2010
-  * @brief   	Main program body.
+  * @date    	2015/11/30
+  * @brief   	ADC basic function define.
   ******************************************************************************
   * @copy
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-  *
-  * <h2><center>&copy; COPYRIGHT 2009 ARMVietNam</center></h2>
-  */ 
+  */
   
 /*
 *************************************************************************************************************************************
@@ -79,6 +71,14 @@ volatile uint8_t statusADC3 = 0;
 *************************************************************************************************************************************
 */
 
+/**
+ * @brief  ADC initialize
+ *
+ * @param  none
+ * @return none
+ *
+ * ADC init command
+ */
 void ADCInit(void)
 {
     uint8_t ADC1numChannels = 15; /* number of channel will be used */
@@ -196,7 +196,14 @@ void ADCInit(void)
     while(ADC_GetCalibrationStatus(ADC3));    
 }
 
-
+/**
+ * @brief  ADC DMA initialize
+ *
+ * @param  none
+ * @return none
+ *
+ * ADC DMA init command
+ */
 void DMAInit(void) {
     //enable DMA1 clock
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
@@ -259,6 +266,15 @@ void DMAInit(void) {
     DMA_Cmd(DMA2_Channel5, ENABLE); //Enable the DMA1 - Channel1
 }
 
+/**
+ * @brief  ADC read manual (doesn't be used DMA)
+ *
+ * @param  ADC_TypeDef* ADCx
+ * @param  uint8_t channel
+ * @return none
+ *
+ * ADC read command
+ */
 uint16_t ADC_Read(ADC_TypeDef* ADCx, uint8_t channel) {
 	uint32_t timeout = 0xFFF;
 	
