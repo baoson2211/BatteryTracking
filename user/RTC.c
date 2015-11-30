@@ -1,21 +1,13 @@
 /**
   ******************************************************************************
-  * @file    	RTC/Calendar/main.c
-  * @author  	ARMVN Application Team
+  * @file    	../user/rtc.c
+  * @author  	Bao Son Le - ET02 - K55
   * @version 	V1.0.0
-  * @date    	01/30/2010
-  * @brief   	Main program body.
+  * @date    	2015/11/30
+  * @brief   	RTC basic function define.
   ******************************************************************************
   * @copy
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, ARMVietNam SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-  *
-  * <h2><center>&copy; COPYRIGHT 2009 ARMVietNam</center></h2>
   */ 
   
 /*
@@ -26,13 +18,13 @@
 
 
 
-///** @addtogroup STM32F10x_GEM3M_Examples
-//  * @{
-//  */
+/** @addtogroup STM32F10x_GEM3M_Examples
+  * @{
+  */
 
-///** @addtogroup RTC_Calendar
-//  * @{
-//  */  
+/** @addtogroup RTC_Calendar
+  * @{
+  */  
 
 
 #include <stdio.h>
@@ -425,6 +417,11 @@ void RTC_Configuration(void)
 	RTC_WaitForLastTask();
 }
 
+/**
+  * @brief  set date-time @ fisrt boot
+  * @param  RTC_t * RTC_time
+  * @retval None
+  */
 void Time_Regulate(RTC_t * RTC_time)
 {
 	RTC_time->hour = 0xFF, RTC_time->min = 0xFF, RTC_time->sec = 0xFF;
