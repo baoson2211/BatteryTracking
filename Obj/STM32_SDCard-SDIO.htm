@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Obj\STM32_SDCard-SDIO.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Obj\STM32_SDCard-SDIO.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Mon Nov 30 20:05:20 2015
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Mon Nov 30 22:14:55 2015
 <BR><P>
-<H3>Maximum Stack Usage =        728 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        712 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; CreateFile &rArr; f_open &rArr; follow_path &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; SD_WriteBlock &rArr; DMA_TxConfiguration &rArr; DMA_Init
 <P>
@@ -453,8 +453,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[a0]"></a>CreateFile</STRONG> (Thumb, 368 bytes, Stack size 320 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 712<LI>Call Chain = CreateFile &rArr; f_open &rArr; follow_path &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; SD_WriteBlock &rArr; DMA_TxConfiguration &rArr; DMA_Init
+<P><STRONG><a name="[a0]"></a>CreateFile</STRONG> (Thumb, 368 bytes, Stack size 304 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = CreateFile &rArr; f_open &rArr; follow_path &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; SD_WriteBlock &rArr; DMA_TxConfiguration &rArr; DMA_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtc_gettime
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;f_write
@@ -472,7 +472,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[a7]"></a>WriteFile</STRONG> (Thumb, 304 bytes, Stack size 80 bytes, main.o(.text))
+<P><STRONG><a name="[a7]"></a>WriteFile</STRONG> (Thumb, 360 bytes, Stack size 80 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 472<LI>Call Chain = WriteFile &rArr; f_open &rArr; follow_path &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; SD_WriteBlock &rArr; DMA_TxConfiguration &rArr; DMA_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtc_gettime
@@ -512,8 +512,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 926 bytes, Stack size 16 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 728<LI>Call Chain = main &rArr; CreateFile &rArr; f_open &rArr; follow_path &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; SD_WriteBlock &rArr; DMA_TxConfiguration &rArr; DMA_Init
+<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 1000 bytes, Stack size 16 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 712<LI>Call Chain = main &rArr; CreateFile &rArr; f_open &rArr; follow_path &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; SD_WriteBlock &rArr; DMA_TxConfiguration &rArr; DMA_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtc_settime
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtc_gettime
