@@ -1,26 +1,18 @@
 /**
   ******************************************************************************
-  * @file    	RTC/Calendar/main.h
-  * @author  	ARMVN Application Team
+  * @file    	../user/rtc.h
+  * @author  	Bao Son Le - ET02 - K55
   * @version 	V1.0.0
-  * @date    	01/30/2010
-  * @brief   	Header file for main.c module.
+  * @date    	2015/11/30
+  * @brief   	Header file for rtc.c.
   ******************************************************************************
   * @copy
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, ARMVietNam SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-  *
-  * <h2><center>&copy; COPYRIGHT 2009 ARMVietNam</center></h2>
   */ 
   
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef RTC_H_
-#define RTC_H_
+#ifndef __RTC_H_
+#define __RTC_H_
 
 
 
@@ -94,16 +86,6 @@
 
 //#define BKP_DR1_VALUE 0xA5A5
 
-//#define FIRSTYEAR   2000                // start year
-//#define FIRSTDAY    6                   // 0 = Sunday
-
-//uint32_t Time_Regulate(void);
-//void Time_Adjust(void);
-//void Time_Show(void);
-//void Time_Display(uint32_t TimeVar);
-//void sTime_Display(uint32_t TimeVar, char *timeStr);
-//void Calendar_DateUpdate(void);
-
 typedef struct {
 	uint16_t year;	/* 1..4095 */
 	uint8_t  month;	/* 1..12 */
@@ -115,7 +97,7 @@ typedef struct {
 	uint8_t  dst;	/* 0 Winter, !=0 Summer */
 } RTC_t;
 
-int rtc_init(void);
+int  rtc_init(void);
 bool rtc_gettime (RTC_t*);			/* Get time */
 bool rtc_settime (const RTC_t*);		/* Set time */
 void my_RTC_SetCounter(uint32_t cnt);		/* Set RTC counter */
