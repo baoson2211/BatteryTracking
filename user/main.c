@@ -421,7 +421,7 @@ void Checking(uint8_t ch) {
 
 /**
   * @brief  Turn on/off led if will be warning
-  * @param  none
+  * @param  uint8_t ch (GPIO would be chosen)
   * @retval none
   */
 void Light(uint8_t ch) {
