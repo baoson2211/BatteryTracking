@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    SDIO/stm32f10x_it.c 
+  * @file    ../user/stm32f10x_it.c 
   * @author  MCD Application Team
   * @version V3.1.2
   * @date    09/28/2009
