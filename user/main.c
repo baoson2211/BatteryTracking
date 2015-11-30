@@ -432,7 +432,7 @@ void Light(uint8_t ch) {
 }
 
 /**
-  * @brief  Indicator when every minute had gone
+  * @brief  Indicator when every sec had gone
   * @param  RTC_t * CurrentTime 
   * @param  RTC_t * OldTime 
   * @param  bool    choose        (allow / denied function)
