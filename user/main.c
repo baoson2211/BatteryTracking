@@ -643,7 +643,7 @@ void WriteFile(void)
     //f_lseek(&fdst, fdst.fsize);
     for(ch = 0; ch < 24; ch++) { 
       res = f_lseek(&fdst, fdst.fsize); //fdst.fsize 
-      sprintf(string,"  %5d", (int16_t) CELL.Value[ch]);  
+      sprintf(string,"  %0.2f", (float) (CELL.Value[ch] / 100.00));  
       res = f_write(&fdst, string, sizeof(string), &bw); 
       res = f_sync(&fdst);
     }
