@@ -294,6 +294,4 @@ uint16_t ADC_Read(ADC_TypeDef* ADCx, uint8_t channel) {
 	return ADCx->DR;
 }
 
-
-
 /******************* (C) COPYRIGHT 2010 ARMVietNam *****END OF FILE****/
