@@ -190,7 +190,6 @@ void RTC_Configuration(void);
   * @retval : None
   */
 
-
 /**
   * @brief  Delay nTime milliseconds with systick timer
   * @param  __IO uint32_t nTime
